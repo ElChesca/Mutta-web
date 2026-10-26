@@ -1,0 +1,201 @@
+{
+  "chrome": {
+    "brand": "MUTTA",
+    "buyLabel": "Comprar Tickets",
+    "profileImage": "assets/images/profile.webp",
+    "profileAlt": "Profile",
+    "openMenuLabel": "Abrir menú",
+    "closeMenuLabel": "Cerrar menú"
+  },
+  "event": {
+    "name": "MUTTA",
+    "edition": "SUNSET",
+    "startsAt": "2026-12-19T17:00:00-03:00",
+    "instagramUrl": "https://instagram.com/mutta.sl",
+    "instagramHandle": "@mutta.sl",
+    "mapsUrl": "https://maps.google.com/?q=Boxes+Potrero+de+los+Funes+San+Luis"
+  },
+  "navigation": [
+    {
+      "label": "Próximos Eventos",
+      "section": "hero"
+    },
+    {
+      "label": "Experiencia MUTTA",
+      "section": "tagline"
+    },
+    {
+      "label": "Lineup & Artistas",
+      "section": "lineup"
+    },
+    {
+      "label": "Ubicación & Acceso",
+      "section": "location"
+    },
+    {
+      "label": "Galería",
+      "section": "lineup"
+    }
+  ],
+  "hero": {
+    "badge": "Experiencia Exclusiva • Boxes Potrero de los Funes",
+    "title": "MUTTA",
+    "edition": "SUNSET",
+    "dateLine": "Sábado 19 de Diciembre • Open Doors 17:00 hs",
+    "venueLine": "Boxes Potrero de los Funes",
+    "highlightEyebrow": "Cierre Especial de Noche",
+    "highlightName": "MARIANO MELLINO",
+    "highlightSubtitle": "Extended Sunset Set • Progressive House",
+    "highlightBadge": "Set 3.5hs",
+    "quote": "“¿Más de lo mismo? MUTTA.”",
+    "description": "Una convergencia sensorial única entre las frecuencias sonoras más finas, el atardecer cayendo sobre el lago serrano y la inmensidad del paisaje en Boxes Potrero de los Funes, San Luis.",
+    "countdownLabel": "Tiempo restante para el ritual",
+    "countdownUnits": [
+      "Días",
+      "Horas",
+      "Mins",
+      "Segs"
+    ],
+    "primaryCta": "Conseguir Entradas",
+    "secondaryCta": "Ver Lineup Completo",
+    "posterImage": "assets/images/poster.webp",
+    "posterAlt": "MUTTA Sunset Mariano Mellino 19 de Diciembre San Luis",
+    "posterBadge": "Flyer Oficial • Edición Sunset",
+    "posterLocationLabel": "Locación Oficial",
+    "posterLocation": "Boxes Potrero de los Funes, San Luis",
+    "posterLocationDetail": "Circuito Internacional Potrero de los Funes"
+  },
+  "lineup": {
+    "eyebrow": "Curaduría Sonora Exclusiva",
+    "title": "Lineup & Horarios",
+    "intro": "Un recorrido musical progresivo pensado para acompasar el descenso del sol sobre el circuito y el lago de Potrero de los Funes.",
+    "headliner": {
+      "badge": "Cierre Principal",
+      "time": "20:30 hs — 00:00 hs",
+      "name": "MARIANO MELLINO",
+      "tags": "Sudbeat / The Soundgarden / Balance",
+      "bio": "Referente indiscutido del sonido progressive nacional e internacional. Con presentaciones históricas en Forja, Warung y Crobar, llega al marco imponente de Boxes Potrero de los Funes para brindar una experiencia inmersiva entre sierras y agua.",
+      "image": "assets/images/mariano.webp",
+      "imageAlt": "Intense editorial black and white portrait of techno and progressive house DJ Mariano Mellino performing on stage with atmospheric golden sunset backlighting and smoke mist over a mountain landscape, moody lighting with dramatic shadows",
+      "previewTitle": "Set Recomendado: Sunset Warm Series",
+      "previewLive": "Live Rec",
+      "previewTrack": "Mariano Mellino Live at MUTTA Preview • 04:30"
+    },
+    "support": [
+      {
+        "time": "18:30 — 20:30 hs",
+        "name": "VALENTINA FRANCO",
+        "style": "Deep Organic & Melodic Techno",
+        "image": "assets/images/valentina.webp",
+        "imageAlt": "Portrait of an electronic music female DJ with headphones around her neck during golden hour sunset by a calm lake with mountain hills in the background"
+      },
+      {
+        "time": "17:00 — 18:30 hs",
+        "name": "DIEGO SCIAMMARELLA",
+        "style": "Opening Sunset Session • Chill House",
+        "image": "assets/images/diego.webp",
+        "imageAlt": "Minimalist artistic photo of an Argentine indie electronic music DJ playing synthesizer decks outdoors under warm afternoon sunlight"
+      }
+    ],
+    "soundTitle": "Sistema Acústico Funktion-One",
+    "soundBody": "Calibrado especialmente para evitar reflexiones de agua y preservar la claridad sonora en Potrero."
+  },
+  "tagline": {
+    "lead": "¿MÁS DE LO MISMO?",
+    "mark": "MUTTA."
+  },
+  "location": {
+    "eyebrow": "Coordenadas & Logística",
+    "title": "Ubicación & Acceso",
+    "body": [
+      {
+        "text": "El evento tendrá lugar en el predio de "
+      },
+      {
+        "text": "Boxes Potrero de los Funes",
+        "emphasis": "cream"
+      },
+      {
+        "text": ", sobre el Circuito Internacional Potrero de los Funes (San Luis). A solo 20 minutos de la capital puntana por autopista pavimentada e iluminada."
+      }
+    ],
+    "mapImage": "assets/images/map.webp",
+    "mapAlt": "Boxes Potrero de los Funes, San Luis, Argentina",
+    "mapTitle": "Boxes Potrero de los Funes",
+    "mapSubtitle": "Circuito Internacional Potrero de los Funes • San Luis",
+    "mapCta": "Abrir GPS",
+    "notes": [
+      {
+        "icon": "directions_bus",
+        "title": "Transfer Oficial MUTTA",
+        "body": "Salidas coordinadas desde el centro de San Luis (Plaza Pringles) y puntos estratégicos de Potrero de los Funes a partir de las 16:00 hs. Regreso continuo post-evento."
+      },
+      {
+        "icon": "local_parking",
+        "title": "Estacionamiento Privado",
+        "body": "Predio de Boxes custodiado con capacidad controlada e iluminación nocturna integral."
+      }
+    ],
+    "dressLabel": "Código de Vestimenta Sugerido",
+    "dressTitle": "Sunset Chic / Calzado Cómodo Serranismo",
+    "dressChip": "No Formal"
+  },
+  "faq": {
+    "eyebrow": "Resolución de Dudas",
+    "title": "Preguntas Frecuentes",
+    "items": [
+      {
+        "id": "faq-1",
+        "question": "¿A qué hora se recomienda llegar a Boxes?",
+        "answer": "Recomendamos ingresar a las 17:00 hs puntual para disfrutar el Welcome Drink, recibir tu pulsera oficial MUTTA con broche de sierras y contemplar la puesta de sol en su plenitud mientras inicia el set de calentamiento.",
+        "initiallyExpanded": true
+      },
+      {
+        "id": "faq-2",
+        "question": "¿Qué sucede en caso de lluvia o viento serrano?",
+        "answer": "El predio de Boxes Potrero de los Funes cuenta con estructuras sólidas, carpas semi-cubiertas y áreas protegidas de alta resistencia. Si el clima extremo obligase a postergar, la fecha se reprograma de forma automática respetando las entradas adquiridas.",
+        "initiallyExpanded": false
+      },
+      {
+        "id": "faq-3",
+        "question": "¿Se permite el ingreso a menores de edad?",
+        "answer": "Evento estrictamente exclusivo para mayores de 18 años. Será obligatorio presentar Documento Nacional de Identidad o Pasaporte físico al momento de escanear la entrada en el ingreso.",
+        "initiallyExpanded": false
+      },
+      {
+        "id": "faq-4",
+        "question": "¿Cómo funciona el sistema de consumo interno?",
+        "answer": "Todas las barras y sectores de comida operan mediante sistema Cashless integrado en la pulsera oficial MUTTA o mediante tarjetas de débito/crédito y transferencias bancarias. No se recibe efectivo en barra.",
+        "initiallyExpanded": false
+      }
+    ],
+    "supportTitle": "¿Tenés una consulta especial?",
+    "supportBody": "Escribinos directamente al canal de atención",
+    "supportCta": "@mutta.sl"
+  },
+  "footer": {
+    "quote": "“¿Más de lo mismo? Experiencias diferentes.”",
+    "about": "Curaduría sensorial de sesiones sonoras al atardecer, enclaves naturales y producción inmersiva de alta fidelidad en Boxes Potrero de los Funes, San Luis.",
+    "navTitle": "Navegación",
+    "newsletterTitle": "Preventas Secretas & Newsletter",
+    "newsletterBody": "Accede a códigos privados para lanzamientos de cupo limitado antes que el público general.",
+    "newsletterPlaceholder": "tu@email.com",
+    "newsletterCta": "Suscribirme",
+    "newsletterNote": "Solo compartimos fechas exclusivas. Sin spam.",
+    "newsletterInvalid": "Ingresá un email válido.",
+    "newsletterPending": "TODO: la suscripción todavía no está conectada a un servicio.",
+    "legal": "© 2025 MUTTA Experiences — Boxes Potrero de los Funes, San Luis. Todos los derechos reservados.",
+    "links": [
+      {
+        "label": "Términos de Admisión"
+      },
+      {
+        "label": "Políticas de Privacidad"
+      },
+      {
+        "label": "Preguntas Frecuentes",
+        "section": "faq"
+      }
+    ]
+  }
+}
