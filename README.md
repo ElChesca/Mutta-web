@@ -1,6 +1,6 @@
 # MUTTA Sunset
 
-Landing web del evento **MUTTA Sunset** (sábado 19 de diciembre, Boxes Potrero de los Funes, San Luis). La interfaz sigue el mockup de Stitch y el design system: fondo `#0B0B0B`, acento `#FFD93D`, texto `#F6F2E7` y gris `#A7A097`, con Montserrat e Inter.
+Landing web del evento **MUTTA Sunset** (sábado 19 de diciembre, Boxes Potrero de los Funes, San Luis). La interfaz sigue el mockup de Stitch y el design system: fondo `#0B0B0B`, acento `#FF8A37`, texto `#F6F2E7` y gris `#A7A097`, con Montserrat e Inter.
 
 ## Requisitos
 
@@ -80,6 +80,7 @@ Los assets bajo `assets/` no llevan hash en el nombre. Si cambiás una imagen y 
 ## Desvíos respecto del mockup
 
 - El fondo de página es `#0B0B0B`, como pide el texto de `DESIGN.md`, y no el token `#131313` del export.
+- El acento es el naranja oficial `#FF8A37`. El «Amarillo Sol `#FFD93D`» del manual de marca queda descartado.
 - El countdown apunta al sábado 19 de diciembre de 2026 a las 17:00 (ART), no al temporizador de demostración del HTML (`hoy + 24 días`).
 - Las tarjetas usan radio 24 y los anidados 16, según la sección de formas del design system.
 - El texto de display, headline y label va en mayúsculas, como pide el design system.

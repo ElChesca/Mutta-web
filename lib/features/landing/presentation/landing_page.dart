@@ -127,6 +127,7 @@ class _LandingPageState extends ConsumerState<LandingPage> {
                                     key: _hero,
                                     child: HeroSection(
                                       hero: event.hero,
+                                      lockup: event.tagline.lead,
                                       onTickets: _tickets,
                                       onLineup: () => _scrollTo('lineup'),
                                     ),
@@ -160,6 +161,7 @@ class _LandingPageState extends ConsumerState<LandingPage> {
                                     instagramHandle:
                                         event.event.instagramHandle,
                                     navigation: event.navigation,
+                                    lockup: event.tagline.lead,
                                     onNavigate: _scrollTo,
                                     onInstagram: () =>
                                         _open(event.event.instagramUrl),

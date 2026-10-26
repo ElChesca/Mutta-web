@@ -3,7 +3,7 @@ import 'dart:ui' show lerpDouble;
 import 'package:flutter/material.dart';
 
 const _base = Color(0xFF0B0B0B);
-const _gold = Color(0xFFFFD93D);
+const _accent = Color(0xFFFF8A37);
 const _cream = Color(0xFFF6F2E7);
 const _earth = Color(0xFFA7A097);
 const _elevated = Color(0xFF141414);
@@ -16,11 +16,11 @@ const _error = Color(0xFFFFB4AB);
 const _onError = Color(0xFF690005);
 const _errorContainer = Color(0xFF93000A);
 const _onErrorContainer = Color(0xFFFFDAD6);
-const _outlineVariant = Color(0xFF4D4633);
+const _outlineVariant = Color(0xFF4E3824);
 const _inverseSurface = Color(0xFFE5E2E1);
 const _onInverseSurface = Color(0xFF313030);
-const _inversePrimary = Color(0xFF705D00);
-const _surfaceTint = Color(0xFFE8C426);
+const _inversePrimary = Color(0xFF8A3C12);
+const Color _surfaceTint = _accent;
 
 const _borderDim = Color.fromRGBO(167, 160, 151, 0.18);
 const _borderGhost = Color.fromRGBO(167, 160, 151, 0.20);
@@ -29,10 +29,10 @@ const _borderInput = Color.fromRGBO(167, 160, 151, 0.30);
 const _glass = Color.fromRGBO(11, 11, 11, 0.78);
 const _headerBorder = Color.fromRGBO(32, 31, 31, 0.60);
 const _sandHover = Color.fromRGBO(246, 242, 231, 0.08);
-const _goldSoft = Color.fromRGBO(255, 217, 61, 0.16);
-const _goldButton = Color.fromRGBO(255, 217, 61, 0.25);
-const _goldHalo = Color.fromRGBO(255, 217, 61, 0.12);
-const _goldWash = Color.fromRGBO(255, 217, 61, 0.20);
+const _accentSoft = Color.fromRGBO(255, 138, 55, 0.16);
+const _accentButton = Color.fromRGBO(255, 138, 55, 0.25);
+const _accentHalo = Color.fromRGBO(255, 138, 55, 0.12);
+const _accentWash = Color.fromRGBO(255, 138, 55, 0.20);
 
 class MuttaSpacing {
   const new({
@@ -150,6 +150,8 @@ class MuttaMetrics {
     required this.iconLg,
     required this.avatar,
     required this.logoBox,
+    required this.wordmarkHeight,
+    required this.wordmarkHero,
     required this.pulse,
     required this.artistThumb,
     required this.playButton,
@@ -173,6 +175,8 @@ class MuttaMetrics {
   final double iconLg;
   final double avatar;
   final double logoBox;
+  final double wordmarkHeight;
+  final double wordmarkHero;
   final double pulse;
   final double artistThumb;
   final double playButton;
@@ -196,6 +200,8 @@ class MuttaMetrics {
     iconLg: 24,
     avatar: 32,
     logoBox: 32,
+    wordmarkHeight: 28,
+    wordmarkHero: 48,
     pulse: 6,
     artistThumb: 64,
     playButton: 40,
@@ -225,6 +231,8 @@ class MuttaMetrics {
       iconLg: lerpDouble(iconLg, other.iconLg, t)!,
       avatar: lerpDouble(avatar, other.avatar, t)!,
       logoBox: lerpDouble(logoBox, other.logoBox, t)!,
+      wordmarkHeight: lerpDouble(wordmarkHeight, other.wordmarkHeight, t)!,
+      wordmarkHero: lerpDouble(wordmarkHero, other.wordmarkHero, t)!,
       pulse: lerpDouble(pulse, other.pulse, t)!,
       artistThumb: lerpDouble(artistThumb, other.artistThumb, t)!,
       playButton: lerpDouble(playButton, other.playButton, t)!,
@@ -243,7 +251,7 @@ class MuttaMetrics {
 @immutable
 class MuttaTokens extends ThemeExtension<MuttaTokens> {
   const new({
-    required this.gold,
+    required this.accent,
     required this.cream,
     required this.earth,
     required this.surfaceBase,
@@ -258,18 +266,18 @@ class MuttaTokens extends ThemeExtension<MuttaTokens> {
     required this.glass,
     required this.headerBorder,
     required this.sandHover,
-    required this.goldWash,
+    required this.accentWash,
     required this.spacing,
     required this.radii,
     required this.metrics,
-    required this.goldenGlow,
+    required this.accentGlow,
     required this.buttonGlow,
     required this.focusHalo,
     required this.posterShadow,
     required this.headerShadow,
   });
 
-  final Color gold;
+  final Color accent;
   final Color cream;
   final Color earth;
   final Color surfaceBase;
@@ -284,18 +292,18 @@ class MuttaTokens extends ThemeExtension<MuttaTokens> {
   final Color glass;
   final Color headerBorder;
   final Color sandHover;
-  final Color goldWash;
+  final Color accentWash;
   final MuttaSpacing spacing;
   final MuttaRadii radii;
   final MuttaMetrics metrics;
-  final List<BoxShadow> goldenGlow;
+  final List<BoxShadow> accentGlow;
   final List<BoxShadow> buttonGlow;
   final List<BoxShadow> focusHalo;
   final List<BoxShadow> posterShadow;
   final List<BoxShadow> headerShadow;
 
   static const standard = MuttaTokens(
-    gold: _gold,
+    accent: _accent,
     cream: _cream,
     earth: _earth,
     surfaceBase: _base,
@@ -310,17 +318,17 @@ class MuttaTokens extends ThemeExtension<MuttaTokens> {
     glass: _glass,
     headerBorder: _headerBorder,
     sandHover: _sandHover,
-    goldWash: _goldWash,
+    accentWash: _accentWash,
     spacing: MuttaSpacing.standard,
     radii: MuttaRadii.standard,
     metrics: MuttaMetrics.standard,
-    goldenGlow: [
-      BoxShadow(color: _goldSoft, blurRadius: 32, offset: Offset(0, 8)),
+    accentGlow: [
+      BoxShadow(color: _accentSoft, blurRadius: 32, offset: Offset(0, 8)),
     ],
     buttonGlow: [
-      BoxShadow(color: _goldButton, blurRadius: 20, offset: Offset(0, 6)),
+      BoxShadow(color: _accentButton, blurRadius: 20, offset: Offset(0, 6)),
     ],
-    focusHalo: [BoxShadow(color: _goldHalo, spreadRadius: 3)],
+    focusHalo: [BoxShadow(color: _accentHalo, spreadRadius: 3)],
     posterShadow: [
       BoxShadow(
         color: Color.fromRGBO(0, 0, 0, 0.85),
@@ -339,7 +347,7 @@ class MuttaTokens extends ThemeExtension<MuttaTokens> {
 
   @override
   MuttaTokens copyWith({
-    Color? gold,
+    Color? accent,
     Color? cream,
     Color? earth,
     Color? surfaceBase,
@@ -354,18 +362,18 @@ class MuttaTokens extends ThemeExtension<MuttaTokens> {
     Color? glass,
     Color? headerBorder,
     Color? sandHover,
-    Color? goldWash,
+    Color? accentWash,
     MuttaSpacing? spacing,
     MuttaRadii? radii,
     MuttaMetrics? metrics,
-    List<BoxShadow>? goldenGlow,
+    List<BoxShadow>? accentGlow,
     List<BoxShadow>? buttonGlow,
     List<BoxShadow>? focusHalo,
     List<BoxShadow>? posterShadow,
     List<BoxShadow>? headerShadow,
   }) {
     return MuttaTokens(
-      gold: gold ?? this.gold,
+      accent: accent ?? this.accent,
       cream: cream ?? this.cream,
       earth: earth ?? this.earth,
       surfaceBase: surfaceBase ?? this.surfaceBase,
@@ -380,11 +388,11 @@ class MuttaTokens extends ThemeExtension<MuttaTokens> {
       glass: glass ?? this.glass,
       headerBorder: headerBorder ?? this.headerBorder,
       sandHover: sandHover ?? this.sandHover,
-      goldWash: goldWash ?? this.goldWash,
+      accentWash: accentWash ?? this.accentWash,
       spacing: spacing ?? this.spacing,
       radii: radii ?? this.radii,
       metrics: metrics ?? this.metrics,
-      goldenGlow: goldenGlow ?? this.goldenGlow,
+      accentGlow: accentGlow ?? this.accentGlow,
       buttonGlow: buttonGlow ?? this.buttonGlow,
       focusHalo: focusHalo ?? this.focusHalo,
       posterShadow: posterShadow ?? this.posterShadow,
@@ -398,7 +406,7 @@ class MuttaTokens extends ThemeExtension<MuttaTokens> {
       return this;
     }
     return MuttaTokens(
-      gold: Color.lerp(gold, other.gold, t)!,
+      accent: Color.lerp(accent, other.accent, t)!,
       cream: Color.lerp(cream, other.cream, t)!,
       earth: Color.lerp(earth, other.earth, t)!,
       surfaceBase: Color.lerp(surfaceBase, other.surfaceBase, t)!,
@@ -413,11 +421,11 @@ class MuttaTokens extends ThemeExtension<MuttaTokens> {
       glass: Color.lerp(glass, other.glass, t)!,
       headerBorder: Color.lerp(headerBorder, other.headerBorder, t)!,
       sandHover: Color.lerp(sandHover, other.sandHover, t)!,
-      goldWash: Color.lerp(goldWash, other.goldWash, t)!,
+      accentWash: Color.lerp(accentWash, other.accentWash, t)!,
       spacing: spacing.lerp(other.spacing, t),
       radii: radii.lerp(other.radii, t),
       metrics: metrics.lerp(other.metrics, t),
-      goldenGlow: BoxShadow.lerpList(goldenGlow, other.goldenGlow, t)!,
+      accentGlow: BoxShadow.lerpList(accentGlow, other.accentGlow, t)!,
       buttonGlow: BoxShadow.lerpList(buttonGlow, other.buttonGlow, t)!,
       focusHalo: BoxShadow.lerpList(focusHalo, other.focusHalo, t)!,
       posterShadow: BoxShadow.lerpList(posterShadow, other.posterShadow, t)!,
@@ -440,6 +448,16 @@ TextStyle _montserrat({
     height: height,
     letterSpacing: size * tracking,
     color: color,
+  );
+}
+
+TextStyle wordmarkTaglineStyle() {
+  return _montserrat(
+    size: 12,
+    weight: FontWeight.w500,
+    height: 16 / 12,
+    tracking: 0.28,
+    color: _cream,
   );
 }
 
@@ -482,9 +500,9 @@ ThemeData muttaTheme() {
   const tokens = MuttaTokens.standard;
   const scheme = ColorScheme(
     brightness: Brightness.dark,
-    primary: _gold,
+    primary: _accent,
     onPrimary: _base,
-    primaryContainer: _gold,
+    primaryContainer: _accent,
     onPrimaryContainer: _base,
     secondary: _earth,
     onSecondary: _base,
@@ -538,7 +556,7 @@ ThemeData muttaTheme() {
       weight: FontWeight.w500,
       height: 40 / 32,
       tracking: 0.2,
-      color: _gold,
+      color: _accent,
     ),
     headlineLarge: _montserrat(
       size: 32,
@@ -614,16 +632,16 @@ ThemeData muttaTheme() {
     colorScheme: scheme,
     scaffoldBackgroundColor: _base,
     canvasColor: _base,
-    splashColor: _goldHalo,
+    splashColor: _accentHalo,
     highlightColor: _sandHover,
     textTheme: textTheme,
     extensions: const [tokens],
     iconTheme: const IconThemeData(color: _cream),
     dividerColor: _borderGhost,
     textSelectionTheme: const TextSelectionThemeData(
-      cursorColor: _gold,
-      selectionColor: _goldHalo,
-      selectionHandleColor: _gold,
+      cursorColor: _accent,
+      selectionColor: _accentHalo,
+      selectionHandleColor: _accent,
     ),
     snackBarTheme: SnackBarThemeData(
       backgroundColor: _elevated,
@@ -643,7 +661,7 @@ ThemeData muttaTheme() {
       enabledBorder: inputBorder,
       focusedBorder: OutlineInputBorder(
         borderRadius: radius,
-        borderSide: const BorderSide(color: _gold, width: 1.5),
+        borderSide: const BorderSide(color: _accent, width: 1.5),
       ),
       disabledBorder: inputBorder,
     ),

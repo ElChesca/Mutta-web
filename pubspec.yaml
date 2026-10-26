@@ -28,6 +28,7 @@ flutter:
   assets:
     - assets/content/event.json
     - assets/images/
+    - assets/brand/
   fonts:
     - family: Montserrat
       fonts:

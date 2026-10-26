@@ -55,6 +55,9 @@ class SiteHeader extends ConsumerWidget {
                       children: [
                         _Brand(
                           label: chrome.brand,
+                          height: showNav
+                              ? tokens.metrics.wordmarkHeight
+                              : tokens.metrics.iconLg,
                           onTap: () => onNavigate('hero'),
                         ),
                         if (showNav) ...[
@@ -108,9 +111,10 @@ class SiteHeader extends ConsumerWidget {
 }
 
 class _Brand extends StatelessWidget {
-  const new({required this.label, required this.onTap});
+  const new({required this.label, required this.height, required this.onTap});
 
   final String label;
+  final double height;
   final VoidCallback onTap;
 
   @override
@@ -123,26 +127,8 @@ class _Brand extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          DecoratedBox(
-            decoration: BoxDecoration(
-              color: colors.surfaceContainerHigh.withValues(alpha: 0.9),
-              borderRadius: BorderRadius.circular(tokens.radii.nested),
-              border: Border.all(color: colors.primary.withValues(alpha: 0.3)),
-            ),
-            child: SizedBox.square(
-              dimension: tokens.metrics.logoBox,
-              child: Padding(
-                padding: EdgeInsets.all(tokens.spacing.xs),
-                child: MuttaMark(
-                  color: colors.primary,
-                  size: tokens.metrics.iconLg,
-                ),
-              ),
-            ),
-          ),
+          MuttaWordmark(height: height, semanticLabel: label),
           SizedBox(width: tokens.spacing.sm),
-          BrandText(label, role: BrandRole.headlineMd),
-          SizedBox(width: tokens.spacing.xs),
           DecoratedBox(
             decoration: BoxDecoration(
               color: colors.primary,

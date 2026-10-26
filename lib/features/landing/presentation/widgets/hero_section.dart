@@ -14,12 +14,14 @@ import 'package:mutta_web/features/landing/presentation/widgets/countdown_readou
 class HeroSection extends StatelessWidget {
   const new({
     required this.hero,
+    required this.lockup,
     required this.onTickets,
     required this.onLineup,
     super.key,
   });
 
   final HeroContent hero;
+  final String lockup;
   final VoidCallback onTickets;
   final VoidCallback onLineup;
 
@@ -40,10 +42,7 @@ class HeroSection extends StatelessWidget {
                   alignment: Alignment.centerRight,
                   child: Opacity(
                     opacity: 0.035,
-                    child: MuttaMark(
-                      color: context.colors.primary,
-                      size: tokens.metrics.watermark,
-                    ),
+                    child: MuttaMark(size: tokens.metrics.watermark),
                   ),
                 );
               },
@@ -61,6 +60,7 @@ class HeroSection extends StatelessWidget {
                 final wide = breakpoint == AppBreakpoint.desktop;
                 final copy = _HeroCopy(
                   hero: hero,
+                  lockup: lockup,
                   onTickets: onTickets,
                   onLineup: onLineup,
                 );
@@ -101,7 +101,7 @@ class _HeroGlow extends StatelessWidget {
           gradient: RadialGradient(
             center: const Alignment(0, -0.8),
             radius: 0.9,
-            colors: [context.tokens.goldWash, const Color(0x00000000)],
+            colors: [context.tokens.accentWash, const Color(0x00000000)],
           ),
         ),
       ),
@@ -112,11 +112,13 @@ class _HeroGlow extends StatelessWidget {
 class _HeroCopy extends StatelessWidget {
   const new({
     required this.hero,
+    required this.lockup,
     required this.onTickets,
     required this.onLineup,
   });
 
   final HeroContent hero;
+  final String lockup;
   final VoidCallback onTickets;
   final VoidCallback onLineup;
 
@@ -129,14 +131,18 @@ class _HeroCopy extends StatelessWidget {
       children: [
         StatusPill(
           label: hero.badge,
-          icon: MuttaMark(color: colors.primary, size: tokens.metrics.iconSm),
+          icon: MuttaMark(size: tokens.metrics.iconSm),
         ),
         SizedBox(height: tokens.spacing.lg),
         Wrap(
           crossAxisAlignment: WrapCrossAlignment.end,
-          spacing: tokens.spacing.sm,
+          spacing: tokens.spacing.lg,
           children: [
-            BrandText(hero.title, role: BrandRole.display, heading: true),
+            MuttaLockup(
+              height: tokens.metrics.wordmarkHero,
+              tagline: lockup,
+              semanticLabel: hero.title,
+            ),
             BrandText(hero.edition, role: BrandRole.edition),
           ],
         ),
@@ -344,10 +350,7 @@ class _Poster extends StatelessWidget {
                               children: [
                                 StatusPill(
                                   label: hero.posterBadge,
-                                  icon: MuttaMark(
-                                    color: colors.primary,
-                                    size: tokens.metrics.iconSm,
-                                  ),
+                                  icon: MuttaMark(size: tokens.metrics.iconSm),
                                 ),
                                 const Spacer(),
                                 Row(

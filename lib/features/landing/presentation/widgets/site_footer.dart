@@ -15,6 +15,7 @@ class SiteFooter extends ConsumerStatefulWidget {
     required this.footer,
     required this.instagramHandle,
     required this.navigation,
+    required this.lockup,
     required this.onNavigate,
     required this.onInstagram,
     super.key,
@@ -23,6 +24,7 @@ class SiteFooter extends ConsumerStatefulWidget {
   final FooterContent footer;
   final String instagramHandle;
   final List<NavItem> navigation;
+  final String lockup;
   final ValueChanged<String> onNavigate;
   final VoidCallback onInstagram;
 
@@ -65,6 +67,7 @@ class _SiteFooterState extends ConsumerState<SiteFooter> {
                   final brand = _BrandColumn(
                     footer: footer,
                     handle: widget.instagramHandle,
+                    lockup: widget.lockup,
                     onInstagram: widget.onInstagram,
                   );
                   final nav = _NavColumn(
@@ -180,11 +183,13 @@ class _BrandColumn extends StatelessWidget {
   const new({
     required this.footer,
     required this.handle,
+    required this.lockup,
     required this.onInstagram,
   });
 
   final FooterContent footer;
   final String handle;
+  final String lockup;
   final VoidCallback onInstagram;
 
   @override
@@ -194,13 +199,7 @@ class _BrandColumn extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          children: [
-            MuttaMark(color: colors.primary, size: tokens.metrics.iconLg),
-            SizedBox(width: tokens.spacing.xs),
-            const BrandText('MUTTA', role: BrandRole.headlineLg),
-          ],
-        ),
+        MuttaLockup(height: tokens.metrics.wordmarkHeight, tagline: lockup),
         SizedBox(height: tokens.spacing.md),
         Text(
           footer.quote,

@@ -27,10 +27,7 @@ class LineupSection extends StatelessWidget {
           child: IgnorePointer(
             child: Opacity(
               opacity: 0.03,
-              child: MuttaMark(
-                color: context.colors.onSurface,
-                size: tokens.metrics.headlinerPhotoHeight,
-              ),
+              child: MuttaMark(size: tokens.metrics.headlinerPhotoHeight),
             ),
           ),
         ),
@@ -125,7 +122,6 @@ class _HeadlinerCard extends StatelessWidget {
                         label: artist.badge,
                         tone: PillTone.gold,
                         icon: MuttaMark(
-                          color: colors.primary,
                           size: tokens.spacing.sm + tokens.spacing.xs,
                         ),
                       ),

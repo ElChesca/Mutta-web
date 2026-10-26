@@ -30,10 +30,7 @@ class SectionHeading extends StatelessWidget {
         Row(
           mainAxisSize: centered ? MainAxisSize.min : MainAxisSize.max,
           children: [
-            MuttaMark(
-              color: context.colors.primary,
-              size: tokens.metrics.iconSm,
-            ),
+            MuttaMark(size: tokens.metrics.iconSm),
             SizedBox(width: tokens.spacing.sm),
             Flexible(
               child: BrandText(
