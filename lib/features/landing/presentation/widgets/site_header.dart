@@ -53,8 +53,6 @@ class SiteHeader extends ConsumerWidget {
                     if (breakpoint == AppBreakpoint.mobile) {
                       return _MobileHeaderBar(
                         label: chrome.brand,
-                        profileImage: chrome.profileImage,
-                        profileAlt: chrome.profileAlt,
                         onHome: () => onNavigate('hero'),
                       );
                     }
@@ -132,16 +130,9 @@ class SiteHeader extends ConsumerWidget {
 }
 
 class _MobileHeaderBar extends StatelessWidget {
-  const new({
-    required this.label,
-    required this.profileImage,
-    required this.profileAlt,
-    required this.onHome,
-  });
+  const new({required this.label, required this.onHome});
 
   final String label;
-  final String profileImage;
-  final String profileAlt;
   final VoidCallback onHome;
 
   @override
@@ -175,15 +166,6 @@ class _MobileHeaderBar extends StatelessWidget {
                 ],
               ),
             ),
-          ),
-        ),
-        const Spacer(),
-        MuttaMark(size: viewport.metrics.coin),
-        SizedBox(width: tokens.spacing.sm),
-        ClipOval(
-          child: SizedBox.square(
-            dimension: tokens.metrics.avatar,
-            child: AssetCover(asset: profileImage, alt: profileAlt),
           ),
         ),
       ],
