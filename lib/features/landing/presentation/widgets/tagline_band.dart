@@ -16,7 +16,9 @@ class TaglineBand extends StatelessWidget {
       color: tokens.surfaceBase,
       child: ContentFrame(
         child: Padding(
-          padding: EdgeInsets.symmetric(vertical: tokens.spacing.xxl),
+          padding: EdgeInsets.symmetric(
+            vertical: context.viewport.sectionPadding,
+          ),
           child: Responsive(
             builder: (context, breakpoint) {
               final compact = breakpoint == AppBreakpoint.mobile;

@@ -57,8 +57,10 @@ class _SiteFooterState extends ConsumerState<SiteFooter> {
       child: ContentFrame(
         child: Padding(
           padding: EdgeInsets.only(
-            top: tokens.spacing.xxl,
-            bottom: tokens.spacing.xl,
+            top: context.viewport.sectionPadding,
+            bottom: context.viewport.compact
+                ? context.viewport.headingGap
+                : tokens.spacing.xl,
           ),
           child: Column(
             children: [
@@ -84,13 +86,39 @@ class _SiteFooterState extends ConsumerState<SiteFooter> {
                     },
                   );
                   if (breakpoint == AppBreakpoint.mobile) {
+                    final gap = context.viewport.headingGap;
                     return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        brand,
-                        SizedBox(height: tokens.spacing.xl),
-                        nav,
-                        SizedBox(height: tokens.spacing.xl),
+                        _BrandColumn(
+                          footer: footer,
+                          handle: widget.instagramHandle,
+                          lockup: widget.lockup,
+                          onInstagram: widget.onInstagram,
+                          centered: true,
+                        ),
+                        SizedBox(height: gap),
+                        BrandText(
+                          footer.navTitle,
+                          role: BrandRole.labelLg,
+                          textAlign: TextAlign.center,
+                        ),
+                        Wrap(
+                          alignment: WrapAlignment.center,
+                          spacing: tokens.spacing.md,
+                          children: [
+                            for (final item in widget.navigation)
+                              TextButton(
+                                onPressed: () =>
+                                    widget.onNavigate(item.section),
+                                child: BrandText(
+                                  item.label,
+                                  role: BrandRole.labelMd,
+                                  color: colors.onSurfaceVariant,
+                                ),
+                              ),
+                          ],
+                        ),
+                        SizedBox(height: gap),
                         news,
                       ],
                     );
@@ -105,7 +133,11 @@ class _SiteFooterState extends ConsumerState<SiteFooter> {
                   );
                 },
               ),
-              SizedBox(height: tokens.spacing.xxl),
+              SizedBox(
+                height: context.viewport.compact
+                    ? context.viewport.sectionPadding
+                    : tokens.spacing.xxl,
+              ),
               DecoratedBox(
                 decoration: BoxDecoration(
                   border: Border(
@@ -122,8 +154,14 @@ class _SiteFooterState extends ConsumerState<SiteFooter> {
                         footer.legal,
                         role: BrandRole.labelSm,
                         color: colors.onSurfaceVariant,
+                        textAlign: breakpoint == AppBreakpoint.mobile
+                            ? TextAlign.center
+                            : TextAlign.start,
                       );
                       final links = Wrap(
+                        alignment: breakpoint == AppBreakpoint.mobile
+                            ? WrapAlignment.center
+                            : WrapAlignment.start,
                         spacing: tokens.spacing.lg,
                         children: [
                           for (final link in footer.links)
@@ -153,7 +191,6 @@ class _SiteFooterState extends ConsumerState<SiteFooter> {
                       );
                       if (breakpoint == AppBreakpoint.mobile) {
                         return Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             legal,
                             SizedBox(height: tokens.spacing.md),
@@ -185,24 +222,33 @@ class _BrandColumn extends StatelessWidget {
     required this.handle,
     required this.lockup,
     required this.onInstagram,
+    this.centered = false,
   });
 
   final FooterContent footer;
   final String handle;
   final String lockup;
   final VoidCallback onInstagram;
+  final bool centered;
 
   @override
   Widget build(BuildContext context) {
     final tokens = context.tokens;
     final colors = context.colors;
+    final align = centered ? TextAlign.center : TextAlign.start;
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: centered
+          ? CrossAxisAlignment.center
+          : CrossAxisAlignment.start,
       children: [
-        MuttaLockup(height: tokens.metrics.wordmarkHeight, tagline: lockup),
+        MuttaLockup(
+          height: context.viewport.metrics.wordmarkHeight,
+          tagline: lockup,
+        ),
         SizedBox(height: tokens.spacing.md),
         Text(
           footer.quote,
+          textAlign: align,
           style: context.texts.bodyLarge?.copyWith(
             fontStyle: FontStyle.italic,
             fontWeight: FontWeight.w300,
@@ -213,6 +259,7 @@ class _BrandColumn extends StatelessWidget {
           footer.about,
           role: BrandRole.bodySm,
           color: colors.onSurfaceVariant,
+          textAlign: align,
         ),
         SizedBox(height: tokens.spacing.md),
         TextButton.icon(

@@ -27,6 +27,42 @@ class HeroSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return Responsive(
+      builder: (context, breakpoint) {
+        if (breakpoint == AppBreakpoint.mobile) {
+          return _MobileHero(
+            hero: hero,
+            lockup: lockup,
+            onTickets: onTickets,
+            onLineup: onLineup,
+          );
+        }
+        return _WideHero(
+          hero: hero,
+          lockup: lockup,
+          onTickets: onTickets,
+          onLineup: onLineup,
+        );
+      },
+    );
+  }
+}
+
+class _WideHero extends StatelessWidget {
+  const new({
+    required this.hero,
+    required this.lockup,
+    required this.onTickets,
+    required this.onLineup,
+  });
+
+  final HeroContent hero;
+  final String lockup;
+  final VoidCallback onTickets;
+  final VoidCallback onLineup;
+
+  @override
+  Widget build(BuildContext context) {
     final tokens = context.tokens;
     return Stack(
       children: [
@@ -411,6 +447,235 @@ class _Poster extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class _MobileHero extends StatelessWidget {
+  const new({
+    required this.hero,
+    required this.lockup,
+    required this.onTickets,
+    required this.onLineup,
+  });
+
+  final HeroContent hero;
+  final String lockup;
+  final VoidCallback onTickets;
+  final VoidCallback onLineup;
+
+  @override
+  Widget build(BuildContext context) {
+    final tokens = context.tokens;
+    final colors = context.colors;
+    final viewport = context.viewport;
+    final margin = tokens.spacing.margin;
+    return Column(
+      children: [
+        Stack(
+          children: [
+            Positioned.fill(
+              child: IgnorePointer(
+                child: AssetCover(asset: hero.posterImage, alt: hero.posterAlt),
+              ),
+            ),
+            const Positioned.fill(
+              child: IgnorePointer(
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [Color(0x660E0E0E), Color(0xFF0E0E0E)],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            const Positioned.fill(child: _HeroGlow()),
+            ConstrainedBox(
+              constraints: BoxConstraints(minHeight: viewport.heroHeight),
+              child: Padding(
+                padding: EdgeInsets.fromLTRB(
+                  margin,
+                  tokens.spacing.xl,
+                  margin,
+                  tokens.spacing.lg,
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: StatusPill(
+                        label: hero.posterBadge,
+                        icon: MuttaMark(size: viewport.metrics.iconSm),
+                      ),
+                    ),
+                    SizedBox(height: tokens.spacing.lg),
+                    DecoratedBox(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        boxShadow: tokens.accentGlow,
+                      ),
+                      child: MuttaMark(size: viewport.heroEmblem),
+                    ),
+                    SizedBox(height: tokens.spacing.lg),
+                    MuttaWordmark(
+                      height: viewport.metrics.wordmarkHero,
+                      semanticLabel: hero.title,
+                    ),
+                    SizedBox(height: tokens.spacing.sm),
+                    Text(
+                      lockup,
+                      textAlign: TextAlign.center,
+                      style: wordmarkTaglineStyle(),
+                    ),
+                    SizedBox(height: tokens.spacing.sm),
+                    BrandText(
+                      hero.edition,
+                      role: BrandRole.labelMd,
+                      color: colors.primary,
+                      textAlign: TextAlign.center,
+                    ),
+                    SizedBox(height: tokens.spacing.md),
+                    Wrap(
+                      alignment: WrapAlignment.center,
+                      spacing: tokens.spacing.sm,
+                      runSpacing: tokens.spacing.sm,
+                      children: [
+                        StatusPill(label: hero.highlightEyebrow),
+                        StatusPill(
+                          label: hero.highlightBadge,
+                          tone: PillTone.gold,
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: tokens.spacing.md),
+                    BrandText(
+                      hero.highlightName,
+                      role: BrandRole.headlineLg,
+                      textAlign: TextAlign.center,
+                    ),
+                    SizedBox(height: tokens.spacing.xs),
+                    BrandText(
+                      hero.highlightSubtitle,
+                      role: BrandRole.labelMd,
+                      color: colors.onSurfaceVariant,
+                      textAlign: TextAlign.center,
+                    ),
+                    SizedBox(height: tokens.spacing.md),
+                    Wrap(
+                      alignment: WrapAlignment.center,
+                      crossAxisAlignment: WrapCrossAlignment.center,
+                      spacing: tokens.spacing.sm,
+                      runSpacing: tokens.spacing.xs,
+                      children: [
+                        Icon(
+                          muttaIcon('event'),
+                          color: colors.primary,
+                          size: viewport.metrics.iconSm,
+                        ),
+                        BrandText(
+                          hero.dateLine,
+                          role: BrandRole.labelSm,
+                          color: colors.onSurface,
+                          textAlign: TextAlign.center,
+                        ),
+                        const BrandText('•', role: BrandRole.labelSm),
+                        Icon(
+                          muttaIcon('pin_drop'),
+                          color: colors.primary,
+                          size: viewport.metrics.iconSm,
+                        ),
+                        BrandText(
+                          hero.venueLine,
+                          role: BrandRole.labelSm,
+                          color: colors.onSurface,
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: tokens.spacing.lg),
+                    MuttaButton(
+                      label: hero.primaryCta,
+                      icon: muttaIcon('confirmation_number'),
+                      expand: true,
+                      onPressed: onTickets,
+                    ),
+                    SizedBox(height: tokens.spacing.md),
+                    BrandText(
+                      hero.posterLocationLabel,
+                      role: BrandRole.labelSm,
+                      color: colors.primary,
+                      textAlign: TextAlign.center,
+                    ),
+                    BrandText(
+                      hero.posterLocation,
+                      role: BrandRole.headlineSm,
+                      textAlign: TextAlign.center,
+                    ),
+                    BrandText(
+                      hero.posterLocationDetail,
+                      role: BrandRole.bodySm,
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+        ColoredBox(
+          color: colors.surfaceContainerLow,
+          child: Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: margin,
+              vertical: tokens.spacing.md,
+            ),
+            child: CountdownPanel(
+              label: hero.countdownLabel,
+              units: hero.countdownUnits,
+            ),
+          ),
+        ),
+        ContentFrame(
+          child: Padding(
+            padding: EdgeInsets.only(
+              top: tokens.spacing.lg,
+              bottom: viewport.sectionPadding,
+            ),
+            child: Column(
+              children: [
+                Text(
+                  hero.quote,
+                  textAlign: TextAlign.center,
+                  style: context.texts.bodyMedium?.copyWith(
+                    fontStyle: FontStyle.italic,
+                    fontWeight: FontWeight.w300,
+                    color: colors.onSurface,
+                  ),
+                ),
+                SizedBox(height: tokens.spacing.sm),
+                BrandText(
+                  hero.description,
+                  role: BrandRole.bodyMd,
+                  color: colors.onSurfaceVariant,
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(height: tokens.spacing.lg),
+                MuttaButton(
+                  label: hero.secondaryCta,
+                  variant: MuttaButtonVariant.tonal,
+                  trailingIcon: muttaIcon('expand_more'),
+                  expand: true,
+                  onPressed: onLineup,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

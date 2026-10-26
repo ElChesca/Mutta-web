@@ -44,7 +44,9 @@ class SectionHeading extends StatelessWidget {
         SizedBox(height: tokens.spacing.xs),
         BrandText(
           title,
-          role: BrandRole.headlineLg,
+          role: context.viewport.compact
+              ? BrandRole.headlineMd
+              : BrandRole.headlineLg,
           heading: true,
           textAlign: textAlign,
         ),
