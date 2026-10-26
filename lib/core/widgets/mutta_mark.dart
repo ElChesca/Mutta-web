@@ -1,10 +1,11 @@
 import 'package:flutter/widgets.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mutta_web/core/theme/mutta_theme.dart';
 
 enum MuttaIsotipo {
-  orange('assets/brand/isotipo-orange.webp'),
-  onBlack('assets/brand/isotipo-black.webp'),
-  onCream('assets/brand/isotipo-cream.webp');
+  orange('assets/brand/isotipo-orange.svg'),
+  onBlack('assets/brand/isotipo-black.svg'),
+  onCream('assets/brand/isotipo-cream.svg');
 
   new(this.asset);
 
@@ -25,12 +26,11 @@ class MuttaMark extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final image = Image.asset(
+    final image = SvgPicture.asset(
       variant.asset,
       width: size,
       height: size,
-      fit: BoxFit.contain,
-      filterQuality: FilterQuality.high,
+      excludeFromSemantics: true,
     );
     final label = semanticLabel;
     if (label == null) {
@@ -43,7 +43,7 @@ class MuttaMark extends StatelessWidget {
 class MuttaWordmark extends StatelessWidget {
   const new({required this.height, this.semanticLabel = 'MUTTA', super.key});
 
-  static const asset = 'assets/brand/wordmark-cream.webp';
+  static const asset = 'assets/brand/wordmark-cream.svg';
 
   final double height;
   final String semanticLabel;
@@ -53,11 +53,10 @@ class MuttaWordmark extends StatelessWidget {
     return Semantics(
       label: semanticLabel,
       image: true,
-      child: Image.asset(
+      child: SvgPicture.asset(
         asset,
         height: height,
-        fit: BoxFit.contain,
-        filterQuality: FilterQuality.high,
+        excludeFromSemantics: true,
       ),
     );
   }

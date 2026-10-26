@@ -56,6 +56,7 @@ El build corre **en Vercel**. No hace falta subir `build/web`.
    - `buildCommand`: `bash scripts/vercel-build.sh build` — `flutter build web --release`.
 6. `outputDirectory` es `build/web`. El rewrite `/(.*) → /index.html` deja funcionar la path URL strategy: un refresh en cualquier ruta sirve la app. Los archivos que sí existen (`assets/`, `canvaskit/`, JS) se sirven antes del rewrite.
 7. Caché: `assets/` y `canvaskit/` salen con `Cache-Control: public, max-age=31536000, immutable`. `index.html`, `/`, `flutter_bootstrap.js`, `flutter_service_worker.js`, `flutter.js`, `main.dart.js` y `version.json` salen con `no-cache` porque esos nombres no cambian entre deploys.
+8. El `<link rel="manifest">` lleva `crossorigin="use-credentials"` para que el manifest cargue en los previews con Deployment Protection.
 
 En local, el mismo pipeline completo es:
 
@@ -87,3 +88,4 @@ Los assets bajo `assets/` no llevan hash en el nombre. Si cambiás una imagen y 
 - «Galería» no existe como sección en el HTML.
 - La compra y la newsletter son placeholders a propósito.
 - A pedido de Fede, no se muestran pases, checkout, la experiencia ni la pulsera. El nav «Experiencia MUTTA» baja a la franja de tagline.
+- El wordmark y el isotipo son SVG trazados desde los PNG oficiales, para que el borde escale sin escalones.
