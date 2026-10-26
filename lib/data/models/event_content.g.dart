@@ -13,11 +13,8 @@ EventContent _$EventContentFromJson(Map<String, dynamic> json) => EventContent(
       .map((e) => NavItem.fromJson(e as Map<String, dynamic>))
       .toList(),
   hero: HeroContent.fromJson(json['hero'] as Map<String, dynamic>),
-  passes: PassesContent.fromJson(json['passes'] as Map<String, dynamic>),
   lineup: LineupContent.fromJson(json['lineup'] as Map<String, dynamic>),
-  experience: ExperienceContent.fromJson(
-    json['experience'] as Map<String, dynamic>,
-  ),
+  tagline: TaglineContent.fromJson(json['tagline'] as Map<String, dynamic>),
   location: LocationContent.fromJson(json['location'] as Map<String, dynamic>),
   faq: FaqContent.fromJson(json['faq'] as Map<String, dynamic>),
   footer: FooterContent.fromJson(json['footer'] as Map<String, dynamic>),
@@ -29,9 +26,8 @@ Map<String, dynamic> _$EventContentToJson(EventContent instance) =>
       'event': instance.event.toJson(),
       'navigation': instance.navigation.map((e) => e.toJson()).toList(),
       'hero': instance.hero.toJson(),
-      'passes': instance.passes.toJson(),
       'lineup': instance.lineup.toJson(),
-      'experience': instance.experience.toJson(),
+      'tagline': instance.tagline.toJson(),
       'location': instance.location.toJson(),
       'faq': instance.faq.toJson(),
       'footer': instance.footer.toJson(),
@@ -134,83 +130,6 @@ Map<String, dynamic> _$HeroContentToJson(HeroContent instance) =>
       'posterLocationDetail': instance.posterLocationDetail,
     };
 
-PassesContent _$PassesContentFromJson(Map<String, dynamic> json) =>
-    PassesContent(
-      eyebrow: json['eyebrow'] as String,
-      title: json['title'] as String,
-      intro: json['intro'] as String,
-      checkout: CheckoutCopy.fromJson(json['checkout'] as Map<String, dynamic>),
-      tiers: (json['tiers'] as List<dynamic>)
-          .map((e) => PassTier.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-
-Map<String, dynamic> _$PassesContentToJson(PassesContent instance) =>
-    <String, dynamic>{
-      'eyebrow': instance.eyebrow,
-      'title': instance.title,
-      'intro': instance.intro,
-      'checkout': instance.checkout.toJson(),
-      'tiers': instance.tiers.map((e) => e.toJson()).toList(),
-    };
-
-CheckoutCopy _$CheckoutCopyFromJson(Map<String, dynamic> json) => CheckoutCopy(
-  selectionLabel: json['selectionLabel'] as String,
-  totalLabel: json['totalLabel'] as String,
-  payLabel: json['payLabel'] as String,
-  summaryTemplate: json['summaryTemplate'] as String,
-  minQuantity: (json['minQuantity'] as num).toInt(),
-  maxQuantity: (json['maxQuantity'] as num).toInt(),
-  initialPassId: json['initialPassId'] as String,
-);
-
-Map<String, dynamic> _$CheckoutCopyToJson(CheckoutCopy instance) =>
-    <String, dynamic>{
-      'selectionLabel': instance.selectionLabel,
-      'totalLabel': instance.totalLabel,
-      'payLabel': instance.payLabel,
-      'summaryTemplate': instance.summaryTemplate,
-      'minQuantity': instance.minQuantity,
-      'maxQuantity': instance.maxQuantity,
-      'initialPassId': instance.initialPassId,
-    };
-
-PassTier _$PassTierFromJson(Map<String, dynamic> json) => PassTier(
-  id: json['id'] as String,
-  name: json['name'] as String,
-  description: json['description'] as String,
-  priceArs: (json['priceArs'] as num).toInt(),
-  priceSuffix: json['priceSuffix'] as String,
-  includes: (json['includes'] as List<dynamic>)
-      .map((e) => e as String)
-      .toList(),
-  cta: json['cta'] as String,
-  footnote: json['footnote'] as String,
-  featured: json['featured'] as bool,
-  badgeLeft: json['badgeLeft'] as String,
-  badgeRight: json['badgeRight'] as String?,
-  badgeRightTone: json['badgeRightTone'] as String?,
-  ribbon: json['ribbon'] as String?,
-  defaultSummary: json['defaultSummary'] as String?,
-);
-
-Map<String, dynamic> _$PassTierToJson(PassTier instance) => <String, dynamic>{
-  'id': instance.id,
-  'name': instance.name,
-  'description': instance.description,
-  'priceArs': instance.priceArs,
-  'priceSuffix': instance.priceSuffix,
-  'includes': instance.includes,
-  'cta': instance.cta,
-  'footnote': instance.footnote,
-  'featured': instance.featured,
-  'badgeLeft': instance.badgeLeft,
-  'badgeRight': instance.badgeRight,
-  'badgeRightTone': instance.badgeRightTone,
-  'ribbon': instance.ribbon,
-  'defaultSummary': instance.defaultSummary,
-};
-
 LineupContent _$LineupContentFromJson(Map<String, dynamic> json) =>
     LineupContent(
       eyebrow: json['eyebrow'] as String,
@@ -279,104 +198,11 @@ Map<String, dynamic> _$SupportArtistToJson(SupportArtist instance) =>
       'imageAlt': instance.imageAlt,
     };
 
-ExperienceContent _$ExperienceContentFromJson(Map<String, dynamic> json) =>
-    ExperienceContent(
-      eyebrow: json['eyebrow'] as String,
-      title: json['title'] as String,
-      intro: json['intro'] as String,
-      isotipo: IsotipoContent.fromJson(json['isotipo'] as Map<String, dynamic>),
-      pillars: (json['pillars'] as List<dynamic>)
-          .map((e) => Pillar.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      wristband: WristbandContent.fromJson(
-        json['wristband'] as Map<String, dynamic>,
-      ),
-    );
+TaglineContent _$TaglineContentFromJson(Map<String, dynamic> json) =>
+    TaglineContent(lead: json['lead'] as String, mark: json['mark'] as String);
 
-Map<String, dynamic> _$ExperienceContentToJson(ExperienceContent instance) =>
-    <String, dynamic>{
-      'eyebrow': instance.eyebrow,
-      'title': instance.title,
-      'intro': instance.intro,
-      'isotipo': instance.isotipo.toJson(),
-      'pillars': instance.pillars.map((e) => e.toJson()).toList(),
-      'wristband': instance.wristband.toJson(),
-    };
-
-IsotipoContent _$IsotipoContentFromJson(Map<String, dynamic> json) =>
-    IsotipoContent(
-      badge: json['badge'] as String,
-      monochromeLabel: json['monochromeLabel'] as String,
-      sunsetLabel: json['sunsetLabel'] as String,
-      eyebrow: json['eyebrow'] as String,
-      title: json['title'] as String,
-      body: (json['body'] as List<dynamic>)
-          .map((e) => TextRun.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      points: (json['points'] as List<dynamic>)
-          .map((e) => IsotipoPoint.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-
-Map<String, dynamic> _$IsotipoContentToJson(IsotipoContent instance) =>
-    <String, dynamic>{
-      'badge': instance.badge,
-      'monochromeLabel': instance.monochromeLabel,
-      'sunsetLabel': instance.sunsetLabel,
-      'eyebrow': instance.eyebrow,
-      'title': instance.title,
-      'body': instance.body.map((e) => e.toJson()).toList(),
-      'points': instance.points.map((e) => e.toJson()).toList(),
-    };
-
-IsotipoPoint _$IsotipoPointFromJson(Map<String, dynamic> json) => IsotipoPoint(
-  title: json['title'] as String,
-  body: json['body'] as String,
-  icon: json['icon'] as String,
-);
-
-Map<String, dynamic> _$IsotipoPointToJson(IsotipoPoint instance) =>
-    <String, dynamic>{
-      'title': instance.title,
-      'body': instance.body,
-      'icon': instance.icon,
-    };
-
-Pillar _$PillarFromJson(Map<String, dynamic> json) => Pillar(
-  icon: json['icon'] as String,
-  title: json['title'] as String,
-  body: json['body'] as String,
-);
-
-Map<String, dynamic> _$PillarToJson(Pillar instance) => <String, dynamic>{
-  'icon': instance.icon,
-  'title': instance.title,
-  'body': instance.body,
-};
-
-WristbandContent _$WristbandContentFromJson(Map<String, dynamic> json) =>
-    WristbandContent(
-      eyebrow: json['eyebrow'] as String,
-      title: json['title'] as String,
-      body: (json['body'] as List<dynamic>)
-          .map((e) => TextRun.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      brand: json['brand'] as String,
-      meta: json['meta'] as String,
-      note: json['note'] as String,
-      official: json['official'] as String,
-    );
-
-Map<String, dynamic> _$WristbandContentToJson(WristbandContent instance) =>
-    <String, dynamic>{
-      'eyebrow': instance.eyebrow,
-      'title': instance.title,
-      'body': instance.body.map((e) => e.toJson()).toList(),
-      'brand': instance.brand,
-      'meta': instance.meta,
-      'note': instance.note,
-      'official': instance.official,
-    };
+Map<String, dynamic> _$TaglineContentToJson(TaglineContent instance) =>
+    <String, dynamic>{'lead': instance.lead, 'mark': instance.mark};
 
 LocationContent _$LocationContentFromJson(Map<String, dynamic> json) =>
     LocationContent(

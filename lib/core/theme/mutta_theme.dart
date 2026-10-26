@@ -443,6 +443,26 @@ TextStyle _montserrat({
   );
 }
 
+TextStyle taglineLeadStyle({required bool compact}) {
+  return _montserrat(
+    size: compact ? 18 : 32,
+    weight: FontWeight.w500,
+    height: 1.25,
+    tracking: 0.28,
+    color: _cream,
+  );
+}
+
+TextStyle taglineMarkStyle({required bool compact}) {
+  return _montserrat(
+    size: compact ? 18 : 32,
+    weight: FontWeight.w800,
+    height: 1.25,
+    tracking: 0.08,
+    color: _cream,
+  );
+}
+
 TextStyle _inter({
   required double size,
   required FontWeight weight,

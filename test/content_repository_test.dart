@@ -12,12 +12,12 @@ void main() {
       content.hero.dateLine,
       'Sábado 19 de Diciembre • Open Doors 17:00 hs',
     );
-    expect(content.passes.tiers.map((tier) => tier.name), [
-      'General Access',
-      'VIP Sunset Terrace',
-      'Backstage Lounge',
-    ]);
-    expect(content.passes.tiers[1].priceArs, 35000);
+    expect(content.tagline.lead, '¿MÁS DE LO MISMO?');
+    expect(content.tagline.mark, 'MUTTA.');
+    expect(
+      content.navigation.map((item) => item.section),
+      isNot(contains('passes')),
+    );
     expect(
       content.faq.items.first.question,
       '¿A qué hora se recomienda llegar a Boxes?',

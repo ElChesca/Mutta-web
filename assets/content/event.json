@@ -16,11 +16,26 @@
     "mapsUrl": "https://maps.google.com/?q=Boxes+Potrero+de+los+Funes+San+Luis"
   },
   "navigation": [
-    {"label": "Próximos Eventos", "section": "hero"},
-    {"label": "Experiencia MUTTA", "section": "experience"},
-    {"label": "Lineup & Artistas", "section": "lineup"},
-    {"label": "Ubicación & Acceso", "section": "location"},
-    {"label": "Galería", "section": "lineup"}
+    {
+      "label": "Próximos Eventos",
+      "section": "hero"
+    },
+    {
+      "label": "Experiencia MUTTA",
+      "section": "tagline"
+    },
+    {
+      "label": "Lineup & Artistas",
+      "section": "lineup"
+    },
+    {
+      "label": "Ubicación & Acceso",
+      "section": "location"
+    },
+    {
+      "label": "Galería",
+      "section": "lineup"
+    }
   ],
   "hero": {
     "badge": "Experiencia Exclusiva • Boxes Potrero de los Funes",
@@ -35,7 +50,12 @@
     "quote": "“¿Más de lo mismo? MUTTA.”",
     "description": "Una convergencia sensorial única entre las frecuencias sonoras más finas, el atardecer cayendo sobre el lago serrano y la inmensidad del paisaje en Boxes Potrero de los Funes, San Luis.",
     "countdownLabel": "Tiempo restante para el ritual",
-    "countdownUnits": ["Días", "Horas", "Mins", "Segs"],
+    "countdownUnits": [
+      "Días",
+      "Horas",
+      "Mins",
+      "Segs"
+    ],
     "primaryCta": "Conseguir Entradas",
     "secondaryCta": "Ver Lineup Completo",
     "posterImage": "assets/images/poster.webp",
@@ -44,80 +64,6 @@
     "posterLocationLabel": "Locación Oficial",
     "posterLocation": "Boxes Potrero de los Funes, San Luis",
     "posterLocationDetail": "Circuito Internacional Potrero de los Funes"
-  },
-  "passes": {
-    "eyebrow": "Acceso Oficial • Capacidad Restringida",
-    "title": "Pases & Experiencias",
-    "intro": "Garantizá tu ingreso de forma digital con código QR inviolable y pulsera RFID con isotipo MUTTA en el acceso a Boxes Potrero de los Funes.",
-    "checkout": {
-      "selectionLabel": "Selección Activa",
-      "totalLabel": "Total a pagar",
-      "payLabel": "Continuar al Pago",
-      "summaryTemplate": "{qty}x {name} seleccionado",
-      "minQuantity": 1,
-      "maxQuantity": 10,
-      "initialPassId": "vip-sunset-terrace"
-    },
-    "tiers": [
-      {
-        "id": "general-access",
-        "name": "General Access",
-        "description": "Acceso íntegro al predio Boxes, pista principal frente al espejo de agua y puesta sunset.",
-        "priceArs": 18000,
-        "priceSuffix": "ARS",
-        "includes": [
-          "Ingreso desde las 17:00 hs",
-          "Acceso a pista sunset principal en Boxes con vista a sierras",
-          "Sunset Welcome Drink (válido de 17:00 a 19:00 hs)",
-          "Puntos de hidratación libre & Eco-vaso MUTTA"
-        ],
-        "cta": "Seleccionar Pase",
-        "footnote": "Incluye costo por servicio",
-        "featured": false,
-        "badgeLeft": "Fase 01 • Early Bird",
-        "badgeRight": "Últimos cupos",
-        "badgeRightTone": "error"
-      },
-      {
-        "id": "vip-sunset-terrace",
-        "name": "VIP Sunset Terrace",
-        "description": "Tarima sobreelevada exclusiva con visión directa a la cabina y al lago de Potrero de los Funes.",
-        "priceArs": 35000,
-        "priceSuffix": "ARS",
-        "includes": [
-          "Fast Pass: Ingreso ágil diferenciado sin fila en Boxes",
-          "Acceso a Tarima Sunset VIP & Baños privados premium",
-          "Barra exclusiva de autor sin demoras",
-          "Cocktail de bienvenida artesanal de degustación",
-          "Pulsera oficial MUTTA en tela con broche metálico 'M'"
-        ],
-        "cta": "Comprar VIP Terrace",
-        "footnote": "Cupos al 82% vendidos",
-        "featured": true,
-        "ribbon": "La Elección MUTTA",
-        "badgeLeft": "Experiencia Preferencial",
-        "defaultSummary": "1x Entrada Individual con acceso Fast Pass"
-      },
-      {
-        "id": "backstage-lounge",
-        "name": "Backstage Lounge",
-        "description": "Ubicación contigua a la cabina del DJ con servicio personalizado y consumición incluida.",
-        "priceArs": 180000,
-        "priceSuffix": "ARS / Mesa",
-        "includes": [
-          "10 Pases Backstage con brazalete VIP Gold y pin 'M'",
-          "$100.000 en crédito para carta de destilados y espumantes",
-          "Camarero exclusivo y living asignado",
-          "Estacionamiento preferencial VIP para 3 vehículos en Boxes"
-        ],
-        "cta": "Reservar Mesa",
-        "footnote": "Solo 6 mesas en el predio",
-        "featured": false,
-        "badgeLeft": "Mesas Privadas",
-        "badgeRight": "Para 10 Personas",
-        "badgeRightTone": "neutral"
-      }
-    ]
   },
   "lineup": {
     "eyebrow": "Curaduría Sonora Exclusiva",
@@ -154,72 +100,24 @@
     "soundTitle": "Sistema Acústico Funktion-One",
     "soundBody": "Calibrado especialmente para evitar reflexiones de agua y preservar la claridad sonora en Potrero."
   },
-  "experience": {
-    "eyebrow": "El Concepto",
-    "title": "¿Qué es la Experiencia MUTTA?",
-    "intro": "MUTTA nace como un contrapunto a la monotonía de los eventos masivos convencionales. Diseñamos un entorno íntimo donde la música y la geografía conviven en sintonía orgánica.",
-    "isotipo": {
-      "badge": "Isotipo Oficial MUTTA",
-      "monochromeLabel": "Monocromo",
-      "sunsetLabel": "Color Sunset",
-      "eyebrow": "Identidad Visual Oficial",
-      "title": "El Isotipo: La 'M' Geométrica MUTTA",
-      "body": [
-        {"text": "El isotipo de "},
-        {"text": "MUTTA", "emphasis": "gold"},
-        {"text": " es una síntesis tipográfica y geométrica de máxima pureza: dos columnas ascendentes, diagonales en corte preciso y un vértice angular central perfectamente calibrado. Representa la elevación acústica, la potencia de la música electrónica y el relieve icónico de las sierras de San Luis al atardecer."}
-      ],
-      "points": [
-        {
-          "title": "Geometría Pura",
-          "body": "Trazos uniformes, ángulos precisos y solidez formal inspirada en el entorno serrano.",
-          "icon": "mark"
-        },
-        {
-          "title": "Aplicación Oficial",
-          "body": "Contenido en círculo sobrio #0B0B0B con tipografía en #F6F2E7 y acentos dorado sunset.",
-          "icon": "palette"
-        }
-      ]
-    },
-    "pillars": [
-      {
-        "icon": "water_drop",
-        "title": "Boxes Potrero de los Funes",
-        "body": "Un enclave exclusivo a orillas del espejo de agua del Circuito Internacional. Infraestructura premium al aire libre rodeada del anfiteatro natural de las sierras puntanas."
-      },
-      {
-        "icon": "local_bar",
-        "title": "Gastronomía & Coctelería de Autor",
-        "body": "Carta curada con bartenders de primer nivel, destilados premium, botánicos locales, mocktails frescos y una propuesta de finger food gourmet diseñada para acompañar la puesta de sol."
-      },
-      {
-        "icon": "surround_sound",
-        "title": "Sonido Hi-Fi & Puesta Orgánica",
-        "body": "Iluminación cálida con tonos ámbar y dorados que respetan el paisaje nocturno sin saturación visual. Sonido envolvente con calibración de precisión milimétrica."
-      }
-    ],
-    "wristband": {
-      "eyebrow": "Identidad MUTTA • Accesorio Coleccionable",
-      "title": "Pulsera de Tela Oficial MUTTA • Edición Sunset",
-      "body": [
-        {"text": "Cada asistente recibe al ingreso su brazalete de tela tejida de alta densidad con chip cashless integrado y el "},
-        {"text": "pin/broche con el isotipo de la 'M' serrana dorada", "emphasis": "cream"},
-        {"text": " sobre círculo negro mate. Un souvenir físico e imborrable de la noche en Potrero."}
-      ],
-      "brand": "MUTTA EXPERIENCE",
-      "meta": "Potrero de los Funes • 2025",
-      "note": "Broche 'M' Oficial Incluido",
-      "official": "OFFICIAL"
-    }
+  "tagline": {
+    "lead": "¿MÁS DE LO MISMO?",
+    "mark": "MUTTA."
   },
   "location": {
     "eyebrow": "Coordenadas & Logística",
     "title": "Ubicación & Acceso",
     "body": [
-      {"text": "El evento tendrá lugar en el predio de "},
-      {"text": "Boxes Potrero de los Funes", "emphasis": "cream"},
-      {"text": ", sobre el Circuito Internacional Potrero de los Funes (San Luis). A solo 20 minutos de la capital puntana por autopista pavimentada e iluminada."}
+      {
+        "text": "El evento tendrá lugar en el predio de "
+      },
+      {
+        "text": "Boxes Potrero de los Funes",
+        "emphasis": "cream"
+      },
+      {
+        "text": ", sobre el Circuito Internacional Potrero de los Funes (San Luis). A solo 20 minutos de la capital puntana por autopista pavimentada e iluminada."
+      }
     ],
     "mapImage": "assets/images/map.webp",
     "mapAlt": "Boxes Potrero de los Funes, San Luis, Argentina",
@@ -235,7 +133,7 @@
       {
         "icon": "local_parking",
         "title": "Estacionamiento Privado",
-        "body": "Predio de Boxes custodiado con capacidad controlada e iluminación nocturna integral. Gratuito para quienes cuenten con ticket VIP Terrace o Backstage."
+        "body": "Predio de Boxes custodiado con capacidad controlada e iluminación nocturna integral."
       }
     ],
     "dressLabel": "Código de Vestimenta Sugerido",
@@ -288,9 +186,16 @@
     "newsletterPending": "TODO: la suscripción todavía no está conectada a un servicio.",
     "legal": "© 2025 MUTTA Experiences — Boxes Potrero de los Funes, San Luis. Todos los derechos reservados.",
     "links": [
-      {"label": "Términos de Admisión"},
-      {"label": "Políticas de Privacidad"},
-      {"label": "Preguntas Frecuentes", "section": "faq"}
+      {
+        "label": "Términos de Admisión"
+      },
+      {
+        "label": "Políticas de Privacidad"
+      },
+      {
+        "label": "Preguntas Frecuentes",
+        "section": "faq"
+      }
     ]
   }
 }

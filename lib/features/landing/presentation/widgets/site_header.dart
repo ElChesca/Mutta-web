@@ -18,12 +18,14 @@ class SiteHeader extends ConsumerWidget {
     required this.chrome,
     required this.navigation,
     required this.onNavigate,
+    required this.onBuy,
     super.key,
   });
 
   final ChromeContent chrome;
   final List<NavItem> navigation;
   final ValueChanged<String> onNavigate;
+  final VoidCallback onBuy;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -66,10 +68,7 @@ class SiteHeader extends ConsumerWidget {
                           ],
                         ],
                         const Spacer(),
-                        MuttaButton(
-                          label: chrome.buyLabel,
-                          onPressed: () => onNavigate('passes'),
-                        ),
+                        MuttaButton(label: chrome.buyLabel, onPressed: onBuy),
                         SizedBox(width: tokens.spacing.sm),
                         ClipOval(
                           child: SizedBox.square(

@@ -8,13 +8,12 @@ import 'package:mutta_web/core/widgets/mutta_button.dart';
 import 'package:mutta_web/data/providers.dart';
 import 'package:mutta_web/features/landing/logic/external_link.dart';
 import 'package:mutta_web/features/landing/logic/mobile_menu.dart';
-import 'package:mutta_web/features/landing/presentation/widgets/experience_section.dart';
 import 'package:mutta_web/features/landing/presentation/widgets/hero_section.dart';
 import 'package:mutta_web/features/landing/presentation/widgets/lineup_section.dart';
 import 'package:mutta_web/features/landing/presentation/widgets/location_section.dart';
-import 'package:mutta_web/features/landing/presentation/widgets/passes_section.dart';
 import 'package:mutta_web/features/landing/presentation/widgets/site_footer.dart';
 import 'package:mutta_web/features/landing/presentation/widgets/site_header.dart';
+import 'package:mutta_web/features/landing/presentation/widgets/tagline_band.dart';
 
 class LandingPage extends ConsumerStatefulWidget {
   const new({super.key});
@@ -26,12 +25,10 @@ class LandingPage extends ConsumerStatefulWidget {
 class _LandingPageState extends ConsumerState<LandingPage> {
   final _controller = ScrollController();
   final GlobalKey<State<StatefulWidget>> _hero = GlobalKey();
-  final GlobalKey<State<StatefulWidget>> _passes = GlobalKey();
   final GlobalKey<State<StatefulWidget>> _lineup = GlobalKey();
-  final GlobalKey<State<StatefulWidget>> _experience = GlobalKey();
+  final GlobalKey<State<StatefulWidget>> _tagline = GlobalKey();
   final GlobalKey<State<StatefulWidget>> _location = GlobalKey();
   final GlobalKey<State<StatefulWidget>> _faq = GlobalKey();
-  final GlobalKey<State<StatefulWidget>> _checkout = GlobalKey();
 
   @override
   void dispose() {
@@ -42,12 +39,10 @@ class _LandingPageState extends ConsumerState<LandingPage> {
   GlobalKey? _keyFor(String id) {
     return switch (id) {
       'hero' => _hero,
-      'passes' => _passes,
       'lineup' => _lineup,
-      'experience' => _experience,
+      'tagline' => _tagline,
       'location' => _location,
       'faq' => _faq,
-      'checkout' => _checkout,
       _ => null,
     };
   }
@@ -81,11 +76,11 @@ class _LandingPageState extends ConsumerState<LandingPage> {
     }
   }
 
-  void _pay() {
+  void _tickets() {
     // TODO(mutta): conectar la pasarela de pago oficial cuando esté definida.
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
-        content: Text('TODO: la pasarela de pago todavía no está conectada.'),
+        content: Text('TODO: la venta de entradas todavía no está conectada.'),
       ),
     );
   }
@@ -132,16 +127,8 @@ class _LandingPageState extends ConsumerState<LandingPage> {
                                     key: _hero,
                                     child: HeroSection(
                                       hero: event.hero,
-                                      onTickets: () => _scrollTo('passes'),
+                                      onTickets: _tickets,
                                       onLineup: () => _scrollTo('lineup'),
-                                    ),
-                                  ),
-                                  KeyedSubtree(
-                                    key: _passes,
-                                    child: PassesSection(
-                                      passes: event.passes,
-                                      checkoutKey: _checkout,
-                                      onPay: _pay,
                                     ),
                                   ),
                                   KeyedSubtree(
@@ -153,10 +140,8 @@ class _LandingPageState extends ConsumerState<LandingPage> {
                                     ),
                                   ),
                                   KeyedSubtree(
-                                    key: _experience,
-                                    child: ExperienceSection(
-                                      experience: event.experience,
-                                    ),
+                                    key: _tagline,
+                                    child: TaglineBand(tagline: event.tagline),
                                   ),
                                   KeyedSubtree(
                                     key: _location,
@@ -193,6 +178,7 @@ class _LandingPageState extends ConsumerState<LandingPage> {
                                 chrome: event.chrome,
                                 navigation: event.navigation,
                                 onNavigate: _scrollTo,
+                                onBuy: _tickets,
                               ),
                             ),
                           ),

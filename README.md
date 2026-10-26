@@ -32,13 +32,13 @@ flutter analyze
 flutter test
 ```
 
-Hay tests de texto del JSON, la tarjeta de pase, el countdown, el FAQ y el selector de cantidad.
+Hay tests de texto del JSON, el countdown y el FAQ.
 
 ## Arquitectura
 
 - `lib/core`: `ThemeData`, `ColorScheme` y `MuttaTokens` (`ThemeExtension`) con color, spacing, radios y glow. Los widgets leen el tema; no hardcodean la paleta.
 - `lib/data`: `assets/content/event.json`, modelos `json_serializable` y `EventRepository`.
-- `lib/features/landing`: presentación, notifiers de Riverpod (countdown, pases, FAQ, menú móvil, newsletter) y navegación por scroll.
+- `lib/features/landing`: presentación, notifiers de Riverpod (countdown, FAQ, menú móvil, newsletter) y navegación por scroll.
 - `go_router` publica la landing en `/`.
 
 Breakpoints con `LayoutBuilder`: móvil &lt; 768, tablet 768–1024, desktop &gt; 1024, ancho máximo 1320.
@@ -70,7 +70,8 @@ Los assets bajo `assets/` no llevan hash en el nombre. Si cambiás una imagen y 
 ## Pendientes
 
 - Golden tests de componentes. Por ahora solo hay tests de comportamiento.
-- Pasarela de pago: «Continuar al Pago» muestra un aviso. El código está marcado con `TODO(mutta)`.
+- Venta de entradas: «Comprar Tickets» y «Conseguir Entradas» muestran un aviso. El código está marcado con `TODO(mutta)`. No hay sección de pases.
+- La sección «¿Qué es la experiencia MUTTA?», las features y la pulsera oficial salieron del layout. En ese lugar queda la franja «¿MÁS DE LO MISMO? MUTTA.».
 - Newsletter: valida el email y deja el estado en pendiente de integración. No envía datos a ningún servicio.
 - La muestra sonora del lineup solo alterna play/pausa. El mockup no incluye un archivo de audio.
 - Términos de admisión y políticas de privacidad no tienen página en el mockup.
@@ -84,3 +85,4 @@ Los assets bajo `assets/` no llevan hash en el nombre. Si cambiás una imagen y 
 - El texto de display, headline y label va en mayúsculas, como pide el design system.
 - «Galería» no existe como sección en el HTML.
 - La compra y la newsletter son placeholders a propósito.
+- A pedido de Fede, no se muestran pases, checkout, la experiencia ni la pulsera. El nav «Experiencia MUTTA» baja a la franja de tagline.

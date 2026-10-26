@@ -9,9 +9,8 @@ class EventContent {
     required this.event,
     required this.navigation,
     required this.hero,
-    required this.passes,
     required this.lineup,
-    required this.experience,
+    required this.tagline,
     required this.location,
     required this.faq,
     required this.footer,
@@ -23,18 +22,13 @@ class EventContent {
   final EventInfo event;
   final List<NavItem> navigation;
   final HeroContent hero;
-  final PassesContent passes;
   final LineupContent lineup;
-  final ExperienceContent experience;
+  final TaglineContent tagline;
   final LocationContent location;
   final FaqContent faq;
   final FooterContent footer;
 
   Map<String, dynamic> toJson() => _$EventContentToJson(this);
-
-  PassTier passById(String id) {
-    return passes.tiers.firstWhere((tier) => tier.id == id);
-  }
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -149,91 +143,6 @@ class HeroContent {
 }
 
 @JsonSerializable(explicitToJson: true)
-class PassesContent {
-  const new({
-    required this.eyebrow,
-    required this.title,
-    required this.intro,
-    required this.checkout,
-    required this.tiers,
-  });
-
-  factory fromJson(Map<String, dynamic> json) => _$PassesContentFromJson(json);
-
-  final String eyebrow;
-  final String title;
-  final String intro;
-  final CheckoutCopy checkout;
-  final List<PassTier> tiers;
-
-  Map<String, dynamic> toJson() => _$PassesContentToJson(this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class CheckoutCopy {
-  const new({
-    required this.selectionLabel,
-    required this.totalLabel,
-    required this.payLabel,
-    required this.summaryTemplate,
-    required this.minQuantity,
-    required this.maxQuantity,
-    required this.initialPassId,
-  });
-
-  factory fromJson(Map<String, dynamic> json) => _$CheckoutCopyFromJson(json);
-
-  final String selectionLabel;
-  final String totalLabel;
-  final String payLabel;
-  final String summaryTemplate;
-  final int minQuantity;
-  final int maxQuantity;
-  final String initialPassId;
-
-  Map<String, dynamic> toJson() => _$CheckoutCopyToJson(this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class PassTier {
-  const new({
-    required this.id,
-    required this.name,
-    required this.description,
-    required this.priceArs,
-    required this.priceSuffix,
-    required this.includes,
-    required this.cta,
-    required this.footnote,
-    required this.featured,
-    required this.badgeLeft,
-    this.badgeRight,
-    this.badgeRightTone,
-    this.ribbon,
-    this.defaultSummary,
-  });
-
-  factory fromJson(Map<String, dynamic> json) => _$PassTierFromJson(json);
-
-  final String id;
-  final String name;
-  final String description;
-  final int priceArs;
-  final String priceSuffix;
-  final List<String> includes;
-  final String cta;
-  final String footnote;
-  final bool featured;
-  final String badgeLeft;
-  final String? badgeRight;
-  final String? badgeRightTone;
-  final String? ribbon;
-  final String? defaultSummary;
-
-  Map<String, dynamic> toJson() => _$PassTierToJson(this);
-}
-
-@JsonSerializable(explicitToJson: true)
 class LineupContent {
   const new({
     required this.eyebrow,
@@ -311,104 +220,15 @@ class SupportArtist {
 }
 
 @JsonSerializable(explicitToJson: true)
-class ExperienceContent {
-  const new({
-    required this.eyebrow,
-    required this.title,
-    required this.intro,
-    required this.isotipo,
-    required this.pillars,
-    required this.wristband,
-  });
+class TaglineContent {
+  const new({required this.lead, required this.mark});
 
-  factory fromJson(Map<String, dynamic> json) =>
-      _$ExperienceContentFromJson(json);
+  factory fromJson(Map<String, dynamic> json) => _$TaglineContentFromJson(json);
 
-  final String eyebrow;
-  final String title;
-  final String intro;
-  final IsotipoContent isotipo;
-  final List<Pillar> pillars;
-  final WristbandContent wristband;
+  final String lead;
+  final String mark;
 
-  Map<String, dynamic> toJson() => _$ExperienceContentToJson(this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class IsotipoContent {
-  const new({
-    required this.badge,
-    required this.monochromeLabel,
-    required this.sunsetLabel,
-    required this.eyebrow,
-    required this.title,
-    required this.body,
-    required this.points,
-  });
-
-  factory fromJson(Map<String, dynamic> json) => _$IsotipoContentFromJson(json);
-
-  final String badge;
-  final String monochromeLabel;
-  final String sunsetLabel;
-  final String eyebrow;
-  final String title;
-  final List<TextRun> body;
-  final List<IsotipoPoint> points;
-
-  Map<String, dynamic> toJson() => _$IsotipoContentToJson(this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class IsotipoPoint {
-  const new({required this.title, required this.body, required this.icon});
-
-  factory fromJson(Map<String, dynamic> json) => _$IsotipoPointFromJson(json);
-
-  final String title;
-  final String body;
-  final String icon;
-
-  Map<String, dynamic> toJson() => _$IsotipoPointToJson(this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class Pillar {
-  const new({required this.icon, required this.title, required this.body});
-
-  factory fromJson(Map<String, dynamic> json) => _$PillarFromJson(json);
-
-  final String icon;
-  final String title;
-  final String body;
-
-  Map<String, dynamic> toJson() => _$PillarToJson(this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class WristbandContent {
-  const new({
-    required this.eyebrow,
-    required this.title,
-    required this.body,
-    required this.brand,
-    required this.meta,
-    required this.note,
-    required this.official,
-  });
-
-  factory fromJson(Map<String, dynamic> json) =>
-      _$WristbandContentFromJson(json);
-
-  final String eyebrow;
-  final String title;
-  final List<TextRun> body;
-  final String brand;
-  final String meta;
-  final String note;
-  final String official;
-
-  Map<String, dynamic> toJson() => _$WristbandContentToJson(this);
+  Map<String, dynamic> toJson() => _$TaglineContentToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
