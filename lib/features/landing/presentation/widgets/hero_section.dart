@@ -30,12 +30,7 @@ class HeroSection extends StatelessWidget {
     return Responsive(
       builder: (context, breakpoint) {
         if (breakpoint == AppBreakpoint.mobile) {
-          return _MobileHero(
-            hero: hero,
-            lockup: lockup,
-            onTickets: onTickets,
-            onLineup: onLineup,
-          );
+          return _MobileHero(hero: hero, lockup: lockup, onLineup: onLineup);
         }
         return _WideHero(
           hero: hero,
@@ -452,16 +447,10 @@ class _Poster extends StatelessWidget {
 }
 
 class _MobileHero extends StatelessWidget {
-  const new({
-    required this.hero,
-    required this.lockup,
-    required this.onTickets,
-    required this.onLineup,
-  });
+  const new({required this.hero, required this.lockup, required this.onLineup});
 
   final HeroContent hero;
   final String lockup;
-  final VoidCallback onTickets;
   final VoidCallback onLineup;
 
   @override
@@ -470,23 +459,19 @@ class _MobileHero extends StatelessWidget {
     final colors = context.colors;
     final viewport = context.viewport;
     final margin = tokens.spacing.margin;
+    final gap = tokens.spacing.xl;
     return Column(
       children: [
         Stack(
           children: [
             Positioned.fill(
               child: IgnorePointer(
-                child: AssetCover(asset: hero.posterImage, alt: hero.posterAlt),
-              ),
-            ),
-            const Positioned.fill(
-              child: IgnorePointer(
                 child: DecoratedBox(
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
-                      colors: [Color(0x660E0E0E), Color(0xFF0E0E0E)],
+                      colors: [tokens.accentWash, tokens.surfaceBase],
                     ),
                   ),
                 ),
@@ -498,21 +483,13 @@ class _MobileHero extends StatelessWidget {
               child: Padding(
                 padding: EdgeInsets.fromLTRB(
                   margin,
-                  tokens.spacing.xl,
+                  tokens.spacing.xxl,
                   margin,
-                  tokens.spacing.lg,
+                  gap,
                 ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: StatusPill(
-                        label: hero.posterBadge,
-                        icon: MuttaMark(size: viewport.metrics.iconSm),
-                      ),
-                    ),
-                    SizedBox(height: tokens.spacing.lg),
                     DecoratedBox(
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
@@ -520,12 +497,12 @@ class _MobileHero extends StatelessWidget {
                       ),
                       child: MuttaMark(size: viewport.heroEmblem),
                     ),
-                    SizedBox(height: tokens.spacing.lg),
+                    SizedBox(height: gap),
                     MuttaWordmark(
                       height: viewport.metrics.wordmarkHero,
                       semanticLabel: hero.title,
                     ),
-                    SizedBox(height: tokens.spacing.sm),
+                    SizedBox(height: tokens.spacing.md),
                     Text(
                       lockup,
                       textAlign: TextAlign.center,
@@ -538,38 +515,25 @@ class _MobileHero extends StatelessWidget {
                       color: colors.primary,
                       textAlign: TextAlign.center,
                     ),
-                    SizedBox(height: tokens.spacing.md),
-                    Wrap(
-                      alignment: WrapAlignment.center,
-                      spacing: tokens.spacing.sm,
-                      runSpacing: tokens.spacing.sm,
-                      children: [
-                        StatusPill(label: hero.highlightEyebrow),
-                        StatusPill(
-                          label: hero.highlightBadge,
-                          tone: PillTone.gold,
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: tokens.spacing.md),
+                    SizedBox(height: gap),
                     BrandText(
                       hero.highlightName,
                       role: BrandRole.headlineLg,
                       textAlign: TextAlign.center,
                     ),
-                    SizedBox(height: tokens.spacing.xs),
+                    SizedBox(height: tokens.spacing.sm),
                     BrandText(
                       hero.highlightSubtitle,
                       role: BrandRole.labelMd,
                       color: colors.onSurfaceVariant,
                       textAlign: TextAlign.center,
                     ),
-                    SizedBox(height: tokens.spacing.md),
+                    SizedBox(height: gap),
                     Wrap(
                       alignment: WrapAlignment.center,
                       crossAxisAlignment: WrapCrossAlignment.center,
                       spacing: tokens.spacing.sm,
-                      runSpacing: tokens.spacing.xs,
+                      runSpacing: tokens.spacing.sm,
                       children: [
                         Icon(
                           muttaIcon('event'),
@@ -596,30 +560,6 @@ class _MobileHero extends StatelessWidget {
                         ),
                       ],
                     ),
-                    SizedBox(height: tokens.spacing.lg),
-                    MuttaButton(
-                      label: hero.primaryCta,
-                      icon: muttaIcon('confirmation_number'),
-                      expand: true,
-                      onPressed: onTickets,
-                    ),
-                    SizedBox(height: tokens.spacing.md),
-                    BrandText(
-                      hero.posterLocationLabel,
-                      role: BrandRole.labelSm,
-                      color: colors.primary,
-                      textAlign: TextAlign.center,
-                    ),
-                    BrandText(
-                      hero.posterLocation,
-                      role: BrandRole.headlineSm,
-                      textAlign: TextAlign.center,
-                    ),
-                    BrandText(
-                      hero.posterLocationDetail,
-                      role: BrandRole.bodySm,
-                      textAlign: TextAlign.center,
-                    ),
                   ],
                 ),
               ),
@@ -631,7 +571,7 @@ class _MobileHero extends StatelessWidget {
           child: Padding(
             padding: EdgeInsets.symmetric(
               horizontal: margin,
-              vertical: tokens.spacing.md,
+              vertical: tokens.spacing.lg,
             ),
             child: CountdownPanel(
               label: hero.countdownLabel,
@@ -641,10 +581,7 @@ class _MobileHero extends StatelessWidget {
         ),
         ContentFrame(
           child: Padding(
-            padding: EdgeInsets.only(
-              top: tokens.spacing.lg,
-              bottom: viewport.sectionPadding,
-            ),
+            padding: EdgeInsets.only(top: gap, bottom: viewport.sectionPadding),
             child: Column(
               children: [
                 Text(
