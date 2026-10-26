@@ -47,15 +47,10 @@ class _LandingPageState extends ConsumerState<LandingPage> {
   }
 
   void _scrollTo(String id) {
-    setState(() => _active = id);
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!mounted || !_controller.hasClients) {
-        return;
-      }
-      final object = _keyFor(id)?.currentContext?.findRenderObject();
-      if (object == null) {
-        return;
-      }
+    final target = _keyFor(id)?.currentContext;
+    final object = target?.findRenderObject();
+    if (target != null && object != null) {
+      final position = Scrollable.of(target).position;
       final revealed = RenderAbstractViewport.of(object)
           .getOffsetToReveal(object, 0)
           .offset;
@@ -64,15 +59,16 @@ class _LandingPageState extends ConsumerState<LandingPage> {
           .viewportFor(breakpointFor(width))
           .metrics
           .headerHeight;
-      final max = _controller.position.maxScrollExtent;
+      final max = position.maxScrollExtent;
       final raw = revealed - header;
       final dest = raw < 0 ? 0.0 : (raw > max ? max : raw);
-      _controller.animateTo(
+      position.animateTo(
         dest,
         duration: const Duration(milliseconds: 480),
         curve: Curves.easeOutCubic,
       );
-    });
+    }
+    setState(() => _active = id);
   }
 
   Future<void> _open(String url) async {
@@ -118,7 +114,7 @@ class _LandingPageState extends ConsumerState<LandingPage> {
                       FocusTraversalOrder(
                         order: const NumericFocusOrder(2),
                         child: SelectionArea(
-                          child: ListView(
+                          child: SingleChildScrollView(
                             controller: _controller,
                             padding: EdgeInsets.only(
                               top: scale.metrics.headerHeight,
@@ -128,49 +124,52 @@ class _LandingPageState extends ConsumerState<LandingPage> {
                                       ? safe
                                       : 0),
                             ),
-                            children: [
-                              KeyedSubtree(
-                                key: _hero,
-                                child: HeroSection(
-                                  hero: event.hero,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                KeyedSubtree(
+                                  key: _hero,
+                                  child: HeroSection(
+                                    hero: event.hero,
+                                    lockup: event.tagline.lead,
+                                    onTickets: _tickets,
+                                    onLineup: () => _scrollTo('lineup'),
+                                  ),
+                                ),
+                                KeyedSubtree(
+                                  key: _lineup,
+                                  child: LineupSection(
+                                    lineup: event.lineup,
+                                    onOpenProfile: () =>
+                                        _open(event.event.instagramUrl),
+                                  ),
+                                ),
+                                KeyedSubtree(
+                                  key: _tagline,
+                                  child: TaglineBand(tagline: event.tagline),
+                                ),
+                                KeyedSubtree(
+                                  key: _location,
+                                  child: LocationSection(
+                                    location: event.location,
+                                    faq: event.faq,
+                                    faqKey: _faq,
+                                    onOpenMap: () => _open(event.event.mapsUrl),
+                                    onSupport: () =>
+                                        _open(event.event.instagramUrl),
+                                  ),
+                                ),
+                                SiteFooter(
+                                  footer: event.footer,
+                                  instagramHandle: event.event.instagramHandle,
+                                  navigation: event.navigation,
                                   lockup: event.tagline.lead,
-                                  onTickets: _tickets,
-                                  onLineup: () => _scrollTo('lineup'),
-                                ),
-                              ),
-                              KeyedSubtree(
-                                key: _lineup,
-                                child: LineupSection(
-                                  lineup: event.lineup,
-                                  onOpenProfile: () =>
+                                  onNavigate: _scrollTo,
+                                  onInstagram: () =>
                                       _open(event.event.instagramUrl),
                                 ),
-                              ),
-                              KeyedSubtree(
-                                key: _tagline,
-                                child: TaglineBand(tagline: event.tagline),
-                              ),
-                              KeyedSubtree(
-                                key: _location,
-                                child: LocationSection(
-                                  location: event.location,
-                                  faq: event.faq,
-                                  faqKey: _faq,
-                                  onOpenMap: () => _open(event.event.mapsUrl),
-                                  onSupport: () =>
-                                      _open(event.event.instagramUrl),
-                                ),
-                              ),
-                              SiteFooter(
-                                footer: event.footer,
-                                instagramHandle: event.event.instagramHandle,
-                                navigation: event.navigation,
-                                lockup: event.tagline.lead,
-                                onNavigate: _scrollTo,
-                                onInstagram: () =>
-                                    _open(event.event.instagramUrl),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                       ),
