@@ -33,49 +33,242 @@ class LineupSection extends StatelessWidget {
         ),
         ContentFrame(
           child: Padding(
-            padding: EdgeInsets.symmetric(vertical: tokens.spacing.xxl),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SectionHeading(
-                  eyebrow: lineup.eyebrow,
-                  title: lineup.title,
-                  subtitle: lineup.intro,
-                ),
-                SizedBox(height: tokens.spacing.xl),
-                Responsive(
-                  builder: (context, breakpoint) {
-                    final headliner = _HeadlinerCard(artist: lineup.headliner);
-                    final side = _SupportColumn(
-                      artists: lineup.support,
-                      soundTitle: lineup.soundTitle,
-                      soundBody: lineup.soundBody,
-                      onOpenProfile: onOpenProfile,
-                    );
-                    if (breakpoint != AppBreakpoint.desktop) {
-                      return Column(
-                        children: [
-                          headliner,
-                          SizedBox(height: tokens.spacing.gutterDesktop),
-                          side,
-                        ],
-                      );
-                    }
-                    return Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Expanded(flex: 8, child: headliner),
-                        SizedBox(width: tokens.spacing.gutterDesktop),
-                        Expanded(flex: 4, child: side),
-                      ],
-                    );
-                  },
-                ),
-              ],
+            padding: EdgeInsets.symmetric(
+              vertical: context.viewport.compact
+                  ? context.viewport.sectionPadding
+                  : tokens.spacing.xxl,
             ),
+            child: context.viewport.compact
+                ? _MobileLineup(lineup: lineup, onOpenProfile: onOpenProfile)
+                : Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SectionHeading(
+                        eyebrow: lineup.eyebrow,
+                        title: lineup.title,
+                        subtitle: lineup.intro,
+                      ),
+                      SizedBox(height: tokens.spacing.xl),
+                      Responsive(
+                        builder: (context, breakpoint) {
+                          final headliner = _HeadlinerCard(
+                            artist: lineup.headliner,
+                          );
+                          final side = _SupportColumn(
+                            artists: lineup.support,
+                            soundTitle: lineup.soundTitle,
+                            soundBody: lineup.soundBody,
+                            onOpenProfile: onOpenProfile,
+                          );
+                          if (breakpoint != AppBreakpoint.desktop) {
+                            return Column(
+                              children: [
+                                headliner,
+                                SizedBox(height: tokens.spacing.gutterDesktop),
+                                side,
+                              ],
+                            );
+                          }
+                          return Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Expanded(flex: 8, child: headliner),
+                              SizedBox(width: tokens.spacing.gutterDesktop),
+                              Expanded(flex: 4, child: side),
+                            ],
+                          );
+                        },
+                      ),
+                    ],
+                  ),
           ),
         ),
       ],
+    );
+  }
+}
+
+class _MobileLineup extends StatelessWidget {
+  const new({required this.lineup, required this.onOpenProfile});
+
+  final LineupContent lineup;
+  final VoidCallback onOpenProfile;
+
+  @override
+  Widget build(BuildContext context) {
+    final viewport = context.viewport;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SectionHeading(
+          eyebrow: lineup.eyebrow,
+          title: lineup.title,
+          subtitle: lineup.intro,
+        ),
+        SizedBox(height: viewport.headingGap),
+        _SoundCard(title: lineup.soundTitle, body: lineup.soundBody),
+        SizedBox(height: viewport.stackGap),
+        _MobileHeadliner(artist: lineup.headliner),
+        for (final artist in lineup.support) ...[
+          SizedBox(height: viewport.stackGap),
+          _MobileSupport(artist: artist, onOpenProfile: onOpenProfile),
+        ],
+      ],
+    );
+  }
+}
+
+class _MobileHeadliner extends StatelessWidget {
+  const new({required this.artist});
+
+  final Headliner artist;
+
+  @override
+  Widget build(BuildContext context) {
+    final tokens = context.tokens;
+    final colors = context.colors;
+    final viewport = context.viewport;
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: colors.surfaceContainerHigh,
+        borderRadius: BorderRadius.circular(tokens.radii.card),
+        border: Border.all(color: colors.outlineVariant.withValues(alpha: 0.2)),
+      ),
+      child: Padding(
+        padding: EdgeInsets.all(tokens.spacing.md),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ClipOval(
+                  child: SizedBox.square(
+                    dimension: viewport.headlinerAvatar,
+                    child: AssetCover(
+                      asset: artist.image,
+                      alt: artist.imageAlt,
+                    ),
+                  ),
+                ),
+                SizedBox(width: viewport.stackGap),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      BrandText(
+                        artist.badge,
+                        role: BrandRole.labelSm,
+                        color: colors.primary,
+                      ),
+                      BrandText(artist.name, role: BrandRole.headlineSm),
+                      BrandText(artist.tags, role: BrandRole.labelSm),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: tokens.spacing.sm),
+            Align(
+              alignment: Alignment.centerRight,
+              child: _TimePill(label: artist.time),
+            ),
+            SizedBox(height: tokens.spacing.sm),
+            BrandText(
+              artist.bio,
+              role: BrandRole.bodySm,
+              color: colors.onSurfaceVariant,
+            ),
+            SizedBox(height: tokens.spacing.sm),
+            _Preview(artist: artist),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _MobileSupport extends StatelessWidget {
+  const new({required this.artist, required this.onOpenProfile});
+
+  final SupportArtist artist;
+  final VoidCallback onOpenProfile;
+
+  @override
+  Widget build(BuildContext context) {
+    final tokens = context.tokens;
+    final colors = context.colors;
+    final viewport = context.viewport;
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: colors.surfaceContainer,
+        borderRadius: BorderRadius.circular(tokens.radii.card),
+        border: Border.all(color: colors.outlineVariant.withValues(alpha: 0.2)),
+      ),
+      child: Padding(
+        padding: EdgeInsets.all(tokens.spacing.md),
+        child: Row(
+          children: [
+            ClipOval(
+              child: SizedBox.square(
+                dimension: viewport.metrics.artistThumb,
+                child: AssetCover(asset: artist.image, alt: artist.imageAlt),
+              ),
+            ),
+            SizedBox(width: viewport.stackGap),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  BrandText(artist.name, role: BrandRole.headlineSm),
+                  BrandText(artist.style, role: BrandRole.bodySm),
+                  SizedBox(height: tokens.spacing.xs),
+                  _TimePill(label: artist.time),
+                ],
+              ),
+            ),
+            SizedBox(width: tokens.spacing.sm),
+            IconButton(
+              tooltip: 'Escuchar',
+              onPressed: onOpenProfile,
+              style: IconButton.styleFrom(
+                backgroundColor: colors.surfaceContainerHigh,
+                foregroundColor: colors.onSurfaceVariant,
+                fixedSize: Size.square(viewport.metrics.playButton),
+              ),
+              icon: Icon(
+                muttaIcon('graphic_eq'),
+                size: viewport.metrics.iconMd,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _TimePill extends StatelessWidget {
+  const new({required this.label});
+
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    final tokens = context.tokens;
+    final colors = context.colors;
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: colors.surfaceContainerLowest,
+        borderRadius: BorderRadius.circular(tokens.radii.pill),
+      ),
+      child: Padding(
+        padding: EdgeInsets.symmetric(
+          horizontal: tokens.spacing.sm,
+          vertical: tokens.spacing.xs,
+        ),
+        child: BrandText(label, role: BrandRole.labelSm, color: colors.primary),
+      ),
     );
   }
 }

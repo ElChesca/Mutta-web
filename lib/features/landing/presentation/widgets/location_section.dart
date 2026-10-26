@@ -33,10 +33,15 @@ class LocationSection extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final tokens = context.tokens;
+    final viewport = context.viewport;
     final expanded = ref.watch(faqProvider);
     return ContentFrame(
       child: Padding(
-        padding: EdgeInsets.symmetric(vertical: tokens.spacing.xxl),
+        padding: EdgeInsets.symmetric(
+          vertical: viewport.compact
+              ? viewport.sectionPadding
+              : tokens.spacing.xxl,
+        ),
         child: Responsive(
           builder: (context, breakpoint) {
             final place = _PlaceColumn(
@@ -56,7 +61,11 @@ class LocationSection extends ConsumerWidget {
               return Column(
                 children: [
                   place,
-                  SizedBox(height: tokens.spacing.xxl),
+                  SizedBox(
+                    height: breakpoint == AppBreakpoint.mobile
+                        ? viewport.sectionPadding
+                        : tokens.spacing.xxl,
+                  ),
                   questions,
                 ],
               );
@@ -97,81 +106,91 @@ class _PlaceColumn extends StatelessWidget {
             color: colors.onSurfaceVariant,
           ),
         ),
-        SizedBox(height: tokens.spacing.lg),
-        ClipRRect(
-          borderRadius: BorderRadius.circular(tokens.radii.card),
-          child: SizedBox(
-            height: tokens.metrics.mapHeight,
-            child: Stack(
-              fit: StackFit.expand,
-              children: [
-                AssetCover(asset: location.mapImage, alt: location.mapAlt),
-                const DecoratedBox(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [Color(0x000E0E0E), Color(0xE60E0E0E)],
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.all(tokens.spacing.md),
-                  child: Align(
-                    alignment: Alignment.bottomCenter,
-                    child: DecoratedBox(
-                      decoration: BoxDecoration(
-                        color: colors.surfaceContainerLowest.withValues(
-                          alpha: 0.9,
-                        ),
-                        borderRadius: BorderRadius.circular(
-                          tokens.radii.nested,
-                        ),
-                        border: Border.all(
-                          color: colors.outlineVariant.withValues(alpha: 0.4),
-                        ),
-                      ),
-                      child: Padding(
-                        padding: EdgeInsets.all(tokens.spacing.md),
-                        child: Row(
-                          children: [
-                            Icon(muttaIcon('pin_drop'), color: colors.primary),
-                            SizedBox(width: tokens.spacing.sm),
-                            Expanded(
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  BrandText(
-                                    location.mapTitle,
-                                    role: BrandRole.labelMd,
-                                  ),
-                                  BrandText(
-                                    location.mapSubtitle,
-                                    role: BrandRole.bodySm,
-                                    color: colors.secondary,
-                                  ),
-                                ],
-                              ),
-                            ),
-                            MuttaButton(
-                              label: location.mapCta,
-                              onPressed: onOpenMap,
-                              padding: EdgeInsets.symmetric(
-                                horizontal: tokens.spacing.md,
-                                vertical: tokens.spacing.xs,
-                              ),
-                            ),
-                          ],
-                        ),
+        SizedBox(
+          height: context.viewport.compact
+              ? context.viewport.headingGap
+              : tokens.spacing.lg,
+        ),
+        if (context.viewport.compact)
+          _CompactMap(location: location, onOpenMap: onOpenMap)
+        else
+          ClipRRect(
+            borderRadius: BorderRadius.circular(tokens.radii.card),
+            child: SizedBox(
+              height: tokens.metrics.mapHeight,
+              child: Stack(
+                fit: StackFit.expand,
+                children: [
+                  AssetCover(asset: location.mapImage, alt: location.mapAlt),
+                  const DecoratedBox(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [Color(0x000E0E0E), Color(0xE60E0E0E)],
                       ),
                     ),
                   ),
-                ),
-              ],
+                  Padding(
+                    padding: EdgeInsets.all(tokens.spacing.md),
+                    child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: DecoratedBox(
+                        decoration: BoxDecoration(
+                          color: colors.surfaceContainerLowest.withValues(
+                            alpha: 0.9,
+                          ),
+                          borderRadius: BorderRadius.circular(
+                            tokens.radii.nested,
+                          ),
+                          border: Border.all(
+                            color: colors.outlineVariant.withValues(alpha: 0.4),
+                          ),
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.all(tokens.spacing.md),
+                          child: Row(
+                            children: [
+                              Icon(
+                                muttaIcon('pin_drop'),
+                                color: colors.primary,
+                              ),
+                              SizedBox(width: tokens.spacing.sm),
+                              Expanded(
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    BrandText(
+                                      location.mapTitle,
+                                      role: BrandRole.labelMd,
+                                    ),
+                                    BrandText(
+                                      location.mapSubtitle,
+                                      role: BrandRole.bodySm,
+                                      color: colors.secondary,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              MuttaButton(
+                                label: location.mapCta,
+                                onPressed: onOpenMap,
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: tokens.spacing.md,
+                                  vertical: tokens.spacing.xs,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
-        ),
         SizedBox(height: tokens.spacing.md),
         Responsive(
           builder: (context, breakpoint) {
@@ -183,7 +202,7 @@ class _PlaceColumn extends StatelessWidget {
                 children: [
                   for (final note in notes) ...[
                     note,
-                    SizedBox(height: tokens.spacing.md),
+                    SizedBox(height: context.viewport.stackGap),
                   ],
                 ],
               );
@@ -238,6 +257,88 @@ class _PlaceColumn extends StatelessWidget {
   }
 }
 
+class _CompactMap extends StatelessWidget {
+  const new({required this.location, required this.onOpenMap});
+
+  final LocationContent location;
+  final VoidCallback onOpenMap;
+
+  @override
+  Widget build(BuildContext context) {
+    final tokens = context.tokens;
+    final colors = context.colors;
+    final viewport = context.viewport;
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(tokens.radii.card),
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          color: colors.surfaceContainer,
+          border: Border.all(
+            color: colors.outlineVariant.withValues(alpha: 0.3),
+          ),
+          borderRadius: BorderRadius.circular(tokens.radii.card),
+        ),
+        child: Column(
+          children: [
+            SizedBox(
+              height: viewport.metrics.mapHeight,
+              width: double.infinity,
+              child: AssetCover(asset: location.mapImage, alt: location.mapAlt),
+            ),
+            ColoredBox(
+              color: colors.surfaceContainerHigh,
+              child: Padding(
+                padding: EdgeInsets.all(tokens.spacing.md),
+                child: Row(
+                  children: [
+                    DecoratedBox(
+                      decoration: BoxDecoration(
+                        color: colors.primary.withValues(alpha: 0.2),
+                        shape: BoxShape.circle,
+                      ),
+                      child: SizedBox.square(
+                        dimension: viewport.metrics.playButton,
+                        child: Icon(
+                          muttaIcon('explore'),
+                          color: colors.primary,
+                          size: viewport.metrics.iconMd,
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: tokens.spacing.sm),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          BrandText(location.mapTitle, role: BrandRole.labelMd),
+                          BrandText(
+                            location.mapSubtitle,
+                            role: BrandRole.bodySm,
+                            color: colors.secondary,
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(width: tokens.spacing.sm),
+                    MuttaButton(
+                      label: location.mapCta,
+                      onPressed: onOpenMap,
+                      padding: EdgeInsets.symmetric(
+                        horizontal: tokens.spacing.md,
+                        vertical: tokens.spacing.xs,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 class _NoteCard extends StatelessWidget {
   const new({required this.note});
 
@@ -247,6 +348,7 @@ class _NoteCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final tokens = context.tokens;
     final colors = context.colors;
+    final compact = context.viewport.compact;
     return DecoratedBox(
       decoration: BoxDecoration(
         color: colors.surfaceContainerLow,
@@ -255,34 +357,60 @@ class _NoteCard extends StatelessWidget {
       ),
       child: Padding(
         padding: EdgeInsets.all(tokens.spacing.md),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Icon(
-                  muttaIcon(note.icon),
-                  color: colors.primary,
-                  size: tokens.metrics.iconMd,
-                ),
-                SizedBox(width: tokens.spacing.xs),
-                Flexible(
-                  child: BrandText(
-                    note.title,
-                    role: BrandRole.labelSm,
+        child: compact
+            ? Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Icon(
+                    muttaIcon(note.icon),
                     color: colors.primary,
+                    size: tokens.metrics.iconLg,
                   ),
-                ),
-              ],
-            ),
-            SizedBox(height: tokens.spacing.xs),
-            BrandText(
-              note.body,
-              role: BrandRole.bodySm,
-              color: colors.onSurfaceVariant,
-            ),
-          ],
-        ),
+                  SizedBox(width: context.viewport.stackGap),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        BrandText(note.title, role: BrandRole.headlineSm),
+                        SizedBox(height: tokens.spacing.xs),
+                        BrandText(
+                          note.body,
+                          role: BrandRole.bodySm,
+                          color: colors.onSurfaceVariant,
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              )
+            : Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Icon(
+                        muttaIcon(note.icon),
+                        color: colors.primary,
+                        size: tokens.metrics.iconMd,
+                      ),
+                      SizedBox(width: tokens.spacing.xs),
+                      Flexible(
+                        child: BrandText(
+                          note.title,
+                          role: BrandRole.labelSm,
+                          color: colors.primary,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: tokens.spacing.xs),
+                  BrandText(
+                    note.body,
+                    role: BrandRole.bodySm,
+                    color: colors.onSurfaceVariant,
+                  ),
+                ],
+              ),
       ),
     );
   }
@@ -316,7 +444,11 @@ class _FaqColumn extends StatelessWidget {
             expanded: expanded.contains(item.id),
             onToggle: () => onToggle(item.id),
           ),
-          SizedBox(height: tokens.spacing.md),
+          SizedBox(
+            height: context.viewport.compact
+                ? context.viewport.stackGap
+                : tokens.spacing.md,
+          ),
         ],
         DecoratedBox(
           decoration: BoxDecoration(

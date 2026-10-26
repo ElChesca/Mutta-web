@@ -1,6 +1,7 @@
 import 'dart:ui' show lerpDouble;
 
 import 'package:flutter/material.dart';
+import 'package:mutta_web/core/layout/app_breakpoint.dart';
 
 const _base = Color(0xFF0B0B0B);
 const _accent = Color(0xFFFF8A37);
@@ -37,6 +38,7 @@ const _accentWash = Color.fromRGBO(255, 138, 55, 0.20);
 class MuttaSpacing {
   const new({
     required this.xs,
+    required this.tight,
     required this.sm,
     required this.md,
     required this.lg,
@@ -51,6 +53,7 @@ class MuttaSpacing {
   });
 
   final double xs;
+  final double tight;
   final double sm;
   final double md;
   final double lg;
@@ -65,6 +68,7 @@ class MuttaSpacing {
 
   static const standard = MuttaSpacing(
     xs: 4,
+    tight: 12,
     sm: 8,
     md: 16,
     lg: 24,
@@ -81,6 +85,7 @@ class MuttaSpacing {
   MuttaSpacing lerp(MuttaSpacing other, double t) {
     return MuttaSpacing(
       xs: lerpDouble(xs, other.xs, t)!,
+      tight: lerpDouble(tight, other.tight, t)!,
       sm: lerpDouble(sm, other.sm, t)!,
       md: lerpDouble(md, other.md, t)!,
       lg: lerpDouble(lg, other.lg, t)!,
@@ -215,6 +220,33 @@ class MuttaMetrics {
     glassBlur: 16,
   );
 
+  /// Escala del mockup móvil. Los campos que no cambian copian [standard].
+  static const mobile = MuttaMetrics(
+    headerHeight: 64,
+    maxWidth: 1320,
+    posterAspect: 3 / 4.4,
+    mapHeight: 208,
+    headlinerPhotoHeight: 320,
+    iconSm: 14,
+    iconMd: 18,
+    iconLg: 24,
+    avatar: 32,
+    logoBox: 32,
+    wordmarkHeight: 18,
+    wordmarkHero: 36,
+    pulse: 6,
+    artistThumb: 44,
+    playButton: 32,
+    qtyButton: 32,
+    coin: 28,
+    pillarIcon: 56,
+    isotipo: 224,
+    isotipoCompact: 192,
+    watermark: 620,
+    touchMin: 48,
+    glassBlur: 16,
+  );
+
   MuttaMetrics lerp(MuttaMetrics other, double t) {
     return MuttaMetrics(
       headerHeight: lerpDouble(headerHeight, other.headerHeight, t)!,
@@ -248,6 +280,104 @@ class MuttaMetrics {
   }
 }
 
+/// Decisiones de layout por breakpoint. El móvil sigue el mockup de Stitch;
+/// tablet y desktop comparten [desktop] para no mover la landing cerrada.
+class MuttaViewport {
+  const new({
+    required this.metrics,
+    required this.heroHeight,
+    required this.heroEmblem,
+    required this.headlinerAvatar,
+    required this.bottomNavHeight,
+    required this.stickyCtaHeight,
+    required this.bottomInset,
+    required this.sectionPadding,
+    required this.headingGap,
+    required this.stackGap,
+    required this.countdownFigure,
+    required this.compact,
+  });
+
+  final MuttaMetrics metrics;
+  final double heroHeight;
+  final double heroEmblem;
+  final double headlinerAvatar;
+  final double bottomNavHeight;
+  final double stickyCtaHeight;
+  final double bottomInset;
+  final double sectionPadding;
+  final double headingGap;
+  final double stackGap;
+  final TextStyle countdownFigure;
+  final bool compact;
+
+  static const desktop = MuttaViewport(
+    metrics: MuttaMetrics.standard,
+    heroHeight: 0,
+    heroEmblem: 224,
+    headlinerAvatar: 64,
+    bottomNavHeight: 0,
+    stickyCtaHeight: 0,
+    bottomInset: 0,
+    sectionPadding: 64,
+    headingGap: 40,
+    stackGap: 16,
+    countdownFigure: TextStyle(
+      fontFamily: 'Montserrat',
+      fontSize: 32,
+      fontWeight: FontWeight.w800,
+      height: 40 / 32,
+      letterSpacing: 1.6,
+      color: _cream,
+    ),
+    compact: false,
+  );
+
+  /// Medidas del mockup. bottomInset = nav + CTA + space-lg + space-sm.
+  /// sectionPadding, headingGap y stackGap espejan MuttaSpacing.
+  static const mobile = MuttaViewport(
+    metrics: MuttaMetrics.mobile,
+    heroHeight: 580,
+    heroEmblem: 80,
+    headlinerAvatar: 48,
+    bottomNavHeight: 64,
+    stickyCtaHeight: 48,
+    bottomInset: 144,
+    sectionPadding: 40,
+    headingGap: 16,
+    stackGap: 12,
+    countdownFigure: TextStyle(
+      fontFamily: 'Montserrat',
+      fontSize: 16,
+      fontWeight: FontWeight.w700,
+      height: 1,
+      color: _accent,
+    ),
+    compact: true,
+  );
+
+  MuttaViewport lerp(MuttaViewport other, double t) {
+    return MuttaViewport(
+      metrics: metrics.lerp(other.metrics, t),
+      heroHeight: lerpDouble(heroHeight, other.heroHeight, t)!,
+      heroEmblem: lerpDouble(heroEmblem, other.heroEmblem, t)!,
+      headlinerAvatar: lerpDouble(headlinerAvatar, other.headlinerAvatar, t)!,
+      bottomNavHeight: lerpDouble(bottomNavHeight, other.bottomNavHeight, t)!,
+      stickyCtaHeight: lerpDouble(stickyCtaHeight, other.stickyCtaHeight, t)!,
+      bottomInset: lerpDouble(bottomInset, other.bottomInset, t)!,
+      sectionPadding: lerpDouble(sectionPadding, other.sectionPadding, t)!,
+      headingGap: lerpDouble(headingGap, other.headingGap, t)!,
+      stackGap: lerpDouble(stackGap, other.stackGap, t)!,
+      countdownFigure: TextStyle.lerp(
+        countdownFigure,
+        other.countdownFigure,
+        t,
+      )!,
+      compact: t < 0.5 ? compact : other.compact,
+    );
+  }
+}
+
 @immutable
 class MuttaTokens extends ThemeExtension<MuttaTokens> {
   const new({
@@ -270,6 +400,8 @@ class MuttaTokens extends ThemeExtension<MuttaTokens> {
     required this.spacing,
     required this.radii,
     required this.metrics,
+    required this.mobileViewport,
+    required this.desktopViewport,
     required this.accentGlow,
     required this.buttonGlow,
     required this.focusHalo,
@@ -296,6 +428,16 @@ class MuttaTokens extends ThemeExtension<MuttaTokens> {
   final MuttaSpacing spacing;
   final MuttaRadii radii;
   final MuttaMetrics metrics;
+  final MuttaViewport mobileViewport;
+  final MuttaViewport desktopViewport;
+
+  MuttaViewport viewportFor(AppBreakpoint breakpoint) {
+    if (breakpoint == AppBreakpoint.mobile) {
+      return mobileViewport;
+    }
+    return desktopViewport;
+  }
+
   final List<BoxShadow> accentGlow;
   final List<BoxShadow> buttonGlow;
   final List<BoxShadow> focusHalo;
@@ -322,6 +464,8 @@ class MuttaTokens extends ThemeExtension<MuttaTokens> {
     spacing: MuttaSpacing.standard,
     radii: MuttaRadii.standard,
     metrics: MuttaMetrics.standard,
+    mobileViewport: MuttaViewport.mobile,
+    desktopViewport: MuttaViewport.desktop,
     accentGlow: [
       BoxShadow(color: _accentSoft, blurRadius: 32, offset: Offset(0, 8)),
     ],
@@ -366,6 +510,8 @@ class MuttaTokens extends ThemeExtension<MuttaTokens> {
     MuttaSpacing? spacing,
     MuttaRadii? radii,
     MuttaMetrics? metrics,
+    MuttaViewport? mobileViewport,
+    MuttaViewport? desktopViewport,
     List<BoxShadow>? accentGlow,
     List<BoxShadow>? buttonGlow,
     List<BoxShadow>? focusHalo,
@@ -392,6 +538,8 @@ class MuttaTokens extends ThemeExtension<MuttaTokens> {
       spacing: spacing ?? this.spacing,
       radii: radii ?? this.radii,
       metrics: metrics ?? this.metrics,
+      mobileViewport: mobileViewport ?? this.mobileViewport,
+      desktopViewport: desktopViewport ?? this.desktopViewport,
       accentGlow: accentGlow ?? this.accentGlow,
       buttonGlow: buttonGlow ?? this.buttonGlow,
       focusHalo: focusHalo ?? this.focusHalo,
@@ -425,6 +573,8 @@ class MuttaTokens extends ThemeExtension<MuttaTokens> {
       spacing: spacing.lerp(other.spacing, t),
       radii: radii.lerp(other.radii, t),
       metrics: metrics.lerp(other.metrics, t),
+      mobileViewport: mobileViewport.lerp(other.mobileViewport, t),
+      desktopViewport: desktopViewport.lerp(other.desktopViewport, t),
       accentGlow: BoxShadow.lerpList(accentGlow, other.accentGlow, t)!,
       buttonGlow: BoxShadow.lerpList(buttonGlow, other.buttonGlow, t)!,
       focusHalo: BoxShadow.lerpList(focusHalo, other.focusHalo, t)!,
@@ -674,4 +824,13 @@ extension MuttaThemeContext on BuildContext {
   ColorScheme get colors => Theme.of(this).colorScheme;
 
   TextTheme get texts => Theme.of(this).textTheme;
+
+  /// Escala del breakpoint heredado. Sin [AppLayout] usa desktop.
+  MuttaViewport get viewport {
+    final breakpoint = AppLayout.maybeOf(this);
+    if (breakpoint == null) {
+      return tokens.desktopViewport;
+    }
+    return tokens.viewportFor(breakpoint);
+  }
 }

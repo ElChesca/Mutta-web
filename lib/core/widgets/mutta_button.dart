@@ -28,7 +28,7 @@ class MuttaButton extends StatelessWidget {
     final tokens = context.tokens;
     final colors = context.colors;
     final spacing = tokens.spacing;
-    final metrics = tokens.metrics;
+    final metrics = context.viewport.metrics;
     final resolvedPadding =
         padding ??
         EdgeInsets.symmetric(horizontal: spacing.lg, vertical: spacing.sm);
