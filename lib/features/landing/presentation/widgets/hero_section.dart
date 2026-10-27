@@ -10,6 +10,7 @@ import 'package:mutta_web/core/widgets/status_pill.dart';
 import 'package:mutta_web/data/models/event_content.dart';
 import 'package:mutta_web/features/landing/presentation/widgets/asset_cover.dart';
 import 'package:mutta_web/features/landing/presentation/widgets/countdown_readout.dart';
+import 'package:mutta_web/features/landing/presentation/widgets/hero_video_background.dart';
 
 class HeroSection extends StatelessWidget {
   const new({
@@ -61,7 +62,7 @@ class _WideHero extends StatelessWidget {
     final tokens = context.tokens;
     return Stack(
       children: [
-        const Positioned.fill(child: _HeroGlow()),
+        const Positioned.fill(child: HeroVideoBackground()),
         Positioned.fill(
           child: IgnorePointer(
             child: Responsive(
@@ -117,25 +118,6 @@ class _WideHero extends StatelessWidget {
           ),
         ),
       ],
-    );
-  }
-}
-
-class _HeroGlow extends StatelessWidget {
-  const new();
-
-  @override
-  Widget build(BuildContext context) {
-    return IgnorePointer(
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          gradient: RadialGradient(
-            center: const Alignment(0, -0.8),
-            radius: 0.9,
-            colors: [context.tokens.accentWash, const Color(0x00000000)],
-          ),
-        ),
-      ),
     );
   }
 }
@@ -464,20 +446,9 @@ class _MobileHero extends StatelessWidget {
       children: [
         Stack(
           children: [
-            Positioned.fill(
-              child: IgnorePointer(
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [tokens.accentWash, tokens.surfaceBase],
-                    ),
-                  ),
-                ),
-              ),
+            const Positioned.fill(
+              child: HeroVideoBackground(showAudioToggle: false),
             ),
-            const Positioned.fill(child: _HeroGlow()),
             ConstrainedBox(
               constraints: BoxConstraints(minHeight: viewport.heroHeight),
               child: Padding(
