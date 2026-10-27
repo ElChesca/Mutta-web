@@ -28,6 +28,7 @@ IconData muttaIcon(String name) {
     'near_me' => Icons.near_me,
     'arrow_downward' => Icons.arrow_downward,
     'volume_up' => Icons.volume_up,
+    'volume_off' => Icons.volume_off,
     'explore' => Icons.explore,
     'open_in_new' => Icons.open_in_new,
     'event' => Icons.event,
