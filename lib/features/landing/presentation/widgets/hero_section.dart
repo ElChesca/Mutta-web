@@ -33,7 +33,12 @@ class HeroSection extends StatelessWidget {
     return Responsive(
       builder: (context, breakpoint) {
         if (breakpoint == AppBreakpoint.mobile) {
-          return _MobileHero(hero: hero, lockup: lockup, onLineup: onLineup);
+          return _MobileHero(
+            hero: hero,
+            lockup: lockup,
+            onTickets: onTickets,
+            onLineup: onLineup,
+          );
         }
         return _WideHero(
           hero: hero,
@@ -518,10 +523,16 @@ class _PosterState extends State<_Poster> {
 }
 
 class _MobileHero extends StatelessWidget {
-  const new({required this.hero, required this.lockup, required this.onLineup});
+  const new({
+    required this.hero,
+    required this.lockup,
+    required this.onTickets,
+    required this.onLineup,
+  });
 
   final HeroContent hero;
   final String lockup;
+  final VoidCallback onTickets;
   final VoidCallback onLineup;
 
   @override
@@ -531,8 +542,10 @@ class _MobileHero extends StatelessWidget {
     final viewport = context.viewport;
     final margin = tokens.spacing.margin;
     final gap = tokens.spacing.xl;
+
     return Column(
       children: [
+        // 1. Tarjeta animada del flyer de entrada con resplandor ambiental
         Stack(
           children: [
             Positioned.fill(
@@ -549,94 +562,28 @@ class _MobileHero extends StatelessWidget {
               ),
             ),
             const Positioned.fill(child: _HeroGlow()),
-            ConstrainedBox(
-              constraints: BoxConstraints(minHeight: viewport.heroHeight),
-              child: Padding(
-                padding: EdgeInsets.fromLTRB(
-                  margin,
-                  tokens.spacing.xxl,
-                  margin,
-                  gap,
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    DecoratedBox(
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        boxShadow: tokens.accentGlow,
-                      ),
-                      child: MuttaMark(size: viewport.heroEmblem),
-                    ),
-                    SizedBox(height: gap),
-                    MuttaWordmark(
-                      height: viewport.metrics.wordmarkHero,
-                      semanticLabel: hero.title,
-                    ),
-                    SizedBox(height: tokens.spacing.md),
-                    Text(
-                      lockup,
-                      textAlign: TextAlign.center,
-                      style: wordmarkTaglineStyle(),
-                    ),
-                    SizedBox(height: tokens.spacing.sm),
-                    BrandText(
-                      hero.edition,
-                      role: BrandRole.labelMd,
-                      color: colors.primary,
-                      textAlign: TextAlign.center,
-                    ),
-                    SizedBox(height: gap),
-                    BrandText(
-                      hero.highlightName,
-                      role: BrandRole.headlineLg,
-                      textAlign: TextAlign.center,
-                    ),
-                    SizedBox(height: tokens.spacing.sm),
-                    BrandText(
-                      hero.highlightSubtitle,
-                      role: BrandRole.labelMd,
-                      color: colors.onSurfaceVariant,
-                      textAlign: TextAlign.center,
-                    ),
-                    SizedBox(height: gap),
-                    Wrap(
-                      alignment: WrapAlignment.center,
-                      crossAxisAlignment: WrapCrossAlignment.center,
-                      spacing: tokens.spacing.sm,
-                      runSpacing: tokens.spacing.sm,
-                      children: [
-                        Icon(
-                          muttaIcon('event'),
-                          color: colors.primary,
-                          size: viewport.metrics.iconSm,
-                        ),
-                        BrandText(
-                          hero.dateLine,
-                          role: BrandRole.labelSm,
-                          color: colors.onSurface,
-                          textAlign: TextAlign.center,
-                        ),
-                        const BrandText('•', role: BrandRole.labelSm),
-                        Icon(
-                          muttaIcon('pin_drop'),
-                          color: colors.primary,
-                          size: viewport.metrics.iconSm,
-                        ),
-                        BrandText(
-                          hero.venueLine,
-                          role: BrandRole.labelSm,
-                          color: colors.onSurface,
-                          textAlign: TextAlign.center,
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+            Padding(
+              padding: EdgeInsets.fromLTRB(
+                margin,
+                tokens.spacing.md,
+                margin,
+                tokens.spacing.lg,
+              ),
+              child: Column(
+                children: [
+                  StatusPill(
+                    label: hero.badge,
+                    icon: MuttaMark(size: tokens.metrics.iconSm),
+                  ),
+                  SizedBox(height: tokens.spacing.md),
+                  _Poster(hero: hero),
+                ],
               ),
             ),
           ],
         ),
+
+        // 2. Countdown Panel para generar expectativa
         ColoredBox(
           color: colors.surfaceContainerLow,
           child: Padding(
@@ -650,12 +597,36 @@ class _MobileHero extends StatelessWidget {
             ),
           ),
         ),
+
+        // 3. Botones de acción, Highlight de Mariano Mellino y Bajada
         ContentFrame(
           child: Padding(
             padding: EdgeInsets.only(top: gap, bottom: viewport.sectionPadding),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                _Poster(hero: hero),
+                MuttaButton(
+                  label: hero.primaryCta,
+                  icon: muttaIcon('confirmation_number'),
+                  onPressed: onTickets,
+                  padding: EdgeInsets.symmetric(
+                    horizontal: tokens.spacing.xl,
+                    vertical: tokens.spacing.md,
+                  ),
+                ),
+                SizedBox(height: tokens.spacing.sm),
+                MuttaButton(
+                  label: hero.secondaryCta,
+                  variant: MuttaButtonVariant.tonal,
+                  trailingIcon: muttaIcon('expand_more'),
+                  onPressed: onLineup,
+                  padding: EdgeInsets.symmetric(
+                    horizontal: tokens.spacing.lg,
+                    vertical: tokens.spacing.md,
+                  ),
+                ),
+                SizedBox(height: gap),
+                _Highlight(hero: hero),
                 SizedBox(height: gap),
                 Text(
                   hero.quote,
@@ -672,14 +643,6 @@ class _MobileHero extends StatelessWidget {
                   role: BrandRole.bodyMd,
                   color: colors.onSurfaceVariant,
                   textAlign: TextAlign.center,
-                ),
-                SizedBox(height: tokens.spacing.lg),
-                MuttaButton(
-                  label: hero.secondaryCta,
-                  variant: MuttaButtonVariant.tonal,
-                  trailingIcon: muttaIcon('expand_more'),
-                  expand: true,
-                  onPressed: onLineup,
                 ),
               ],
             ),
