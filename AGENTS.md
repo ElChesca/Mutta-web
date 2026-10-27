@@ -25,6 +25,18 @@ Este documento establece las directivas obligatorias para cualquier agente o des
 3. **Validación en Vercel:**
    * Cada PR genera un *Preview Deployment* automático en Vercel.
    * Antes de dar por finalizada una tarea, verificar el estado de los checks con `gh pr checks <PR_NUM>`.
+4. **Ciclo de Vida de Ramas Efímeras y Limpieza:**
+   * Todas las ramas de desarrollo son **100% efímeras**.
+   * Una vez que el usuario aprueba y mergea el PR en GitHub:
+     * La rama remota debe eliminarse (desde GitHub o con `gh pr merge --delete-branch` o `git push origin --delete <rama>`).
+     * Localmente, el agente o desarrollador debe volver inmediatamente a `main`, actualizarlo y limpiar la rama local:
+       ```bash
+       git checkout main
+       git pull origin main
+       git branch -d <rama-efimera>
+       git remote prune origin
+       ```
+     * **Prohibido dejar ramas huérfanas acumuladas** en el repositorio.
 
 ---
 

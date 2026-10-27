@@ -7,9 +7,10 @@ description: Reglas fundamentales de arquitectura, Git workflow y Flutter para M
 
 ## 1. Flujo de Trabajo en Git y Despliegues
 - **NO hacer push directo a la rama `main`**.
-- Trabajar siempre en ramas secundarias (`feat/...`, `fix/...`).
+- Trabajar siempre en **ramas efímeras** (`feat/...`, `fix/...`).
 - Crear siempre un Pull Request con `gh pr create` hacia `main`.
 - Vercel compila automáticamente cada PR para generar el preview.
+- **Borrado post-merge obligatorio:** Una vez mergeado el PR, la rama efímera debe eliminarse (remota y localmente) y volver a `main` actualizado (`git checkout main && git pull`). Prohibido acumular ramas obsoletas.
 
 ## 2. Tecnologías y Estándares de Código
 - Proyecto: **Flutter Web** desplegado en **Vercel** (`scripts/vercel-build.sh`).
