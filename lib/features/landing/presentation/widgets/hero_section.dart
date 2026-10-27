@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/widgets.dart';
 import 'package:mutta_web/core/icons/mutta_icons.dart';
 import 'package:mutta_web/core/layout/app_breakpoint.dart';
@@ -10,7 +12,7 @@ import 'package:mutta_web/core/widgets/status_pill.dart';
 import 'package:mutta_web/data/models/event_content.dart';
 import 'package:mutta_web/features/landing/presentation/widgets/asset_cover.dart';
 import 'package:mutta_web/features/landing/presentation/widgets/countdown_readout.dart';
-import 'package:mutta_web/features/landing/presentation/widgets/hero_video_background.dart';
+import 'package:video_player/video_player.dart';
 
 class HeroSection extends StatelessWidget {
   const new({
@@ -62,7 +64,7 @@ class _WideHero extends StatelessWidget {
     final tokens = context.tokens;
     return Stack(
       children: [
-        const Positioned.fill(child: HeroVideoBackground()),
+        const Positioned.fill(child: _HeroGlow()),
         Positioned.fill(
           child: IgnorePointer(
             child: Responsive(
@@ -118,6 +120,25 @@ class _WideHero extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+class _HeroGlow extends StatelessWidget {
+  const new();
+
+  @override
+  Widget build(BuildContext context) {
+    return IgnorePointer(
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          gradient: RadialGradient(
+            center: const Alignment(0, -0.8),
+            radius: 0.9,
+            colors: [context.tokens.accentWash, const Color(0x00000000)],
+          ),
+        ),
+      ),
     );
   }
 }
@@ -294,15 +315,57 @@ class _Highlight extends StatelessWidget {
   }
 }
 
-class _Poster extends StatelessWidget {
+class _Poster extends StatefulWidget {
   const new({required this.hero});
 
   final HeroContent hero;
 
   @override
+  State<_Poster> createState() => _PosterState();
+}
+
+class _PosterState extends State<_Poster> {
+  VideoPlayerController? _controller;
+  bool _initialized = false;
+  bool _hasError = false;
+
+  @override
+  void initState() {
+    super.initState();
+    unawaited(_initVideo());
+  }
+
+  Future<void> _initVideo() async {
+    try {
+      final controller = VideoPlayerController.asset('assets/videos/teaser.mp4');
+      _controller = controller;
+      await controller.initialize();
+      await controller.setLooping(true);
+      await controller.setVolume(0); // Totalmente silenciado
+      await controller.play();
+      if (mounted) {
+        setState(() => _initialized = true);
+      }
+    } catch (_) {
+      if (mounted) {
+        setState(() => _hasError = true);
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    _controller?.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final tokens = context.tokens;
     final colors = context.colors;
+    final hero = widget.hero;
+    final controller = _controller;
+
     return Center(
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 460),
@@ -343,19 +406,45 @@ class _Poster extends StatelessWidget {
                       child: Stack(
                         fit: StackFit.expand,
                         children: [
+                          // 1. Imagen base del flyer (poster preview / fallback)
                           AssetCover(
                             asset: hero.posterImage,
                             alt: hero.posterAlt,
                           ),
+
+                          // 2. Video teaser animado en bucle sin pérdida de calidad
+                          if (_initialized && !_hasError && controller != null)
+                            AnimatedOpacity(
+                              duration: const Duration(milliseconds: 500),
+                              opacity: 1.0,
+                              curve: Curves.easeOut,
+                              child: FittedBox(
+                                fit: BoxFit.cover,
+                                child: SizedBox(
+                                  width: controller.value.size.width,
+                                  height: controller.value.size.height,
+                                  child: VideoPlayer(controller),
+                                ),
+                              ),
+                            ),
+
+                          // 3. Degradado para garantizar legibilidad de la información inferior
                           const DecoratedBox(
                             decoration: BoxDecoration(
                               gradient: LinearGradient(
                                 begin: Alignment.topCenter,
                                 end: Alignment.bottomCenter,
-                                colors: [Color(0x000E0E0E), Color(0xCC0E0E0E)],
+                                stops: [0.0, 0.45, 1.0],
+                                colors: [
+                                  Color(0x110E0E0E),
+                                  Color(0x000E0E0E),
+                                  Color(0xEE0E0E0E),
+                                ],
                               ),
                             ),
                           ),
+
+                          // 4. Badges e información de ubicación
                           Padding(
                             padding: EdgeInsets.all(tokens.spacing.md),
                             child: Column(
@@ -446,9 +535,20 @@ class _MobileHero extends StatelessWidget {
       children: [
         Stack(
           children: [
-            const Positioned.fill(
-              child: HeroVideoBackground(showAudioToggle: false),
+            Positioned.fill(
+              child: IgnorePointer(
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [tokens.accentWash, tokens.surfaceBase],
+                    ),
+                  ),
+                ),
+              ),
             ),
+            const Positioned.fill(child: _HeroGlow()),
             ConstrainedBox(
               constraints: BoxConstraints(minHeight: viewport.heroHeight),
               child: Padding(
@@ -555,6 +655,8 @@ class _MobileHero extends StatelessWidget {
             padding: EdgeInsets.only(top: gap, bottom: viewport.sectionPadding),
             child: Column(
               children: [
+                _Poster(hero: hero),
+                SizedBox(height: gap),
                 Text(
                   hero.quote,
                   textAlign: TextAlign.center,
