@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:mutta_web/core/theme/mutta_theme.dart';
 
 enum MuttaButtonVariant { primary, secondary, tonal, ghost }

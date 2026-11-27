@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:mutta_web/core/icons/mutta_icons.dart';
 import 'package:mutta_web/core/theme/mutta_theme.dart';
 import 'package:mutta_web/core/widgets/brand_text.dart';

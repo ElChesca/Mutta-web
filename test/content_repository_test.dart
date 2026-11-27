@@ -5,24 +5,30 @@ import 'support/harness.dart';
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  test('el JSON conserva los textos del mockup', () async {
+  test('el JSON conserva los textos de MUTTÖ', () async {
     final content = await loadEventContent();
-    expect(content.hero.quote, '“¿Más de lo mismo? MUTTA.”');
-    expect(
-      content.hero.dateLine,
-      'Sábado 19 de Diciembre • Open Doors 17:00 hs',
-    );
-    expect(content.tagline.lead, '¿MÁS DE LO MISMO?');
-    expect(content.tagline.mark, 'MUTTA.');
+    expect(content.event.name, 'MUTTÖ');
+    expect(content.chrome.brand, 'MUTTÖ');
+    expect(content.hero.dateLine, 'Sábado 19 de diciembre');
+    expect(content.tagline.lead, 'Todo muta.');
+    expect(content.tagline.mark, 'Hasta nuestro nombre.');
+    expect(content.footer.quote, 'Nos vemos al atardecer.');
+    expect(content.facts.title, contains('progressive house'));
     expect(
       content.navigation.map((item) => item.section),
       isNot(contains('passes')),
     );
     expect(
-      content.faq.items.first.question,
-      '¿A qué hora se recomienda llegar a Boxes?',
+      content.navigation.map((item) => item.section),
+      isNot(contains('entradas')),
+    );
+    expect(
+      content.faq.items.map((item) => item.answer).join(' '),
+      isNot(contains('pulsera')),
     );
     expect(content.event.startsAt.toUtc(), DateTime.utc(2026, 12, 19, 20));
-    expect(content.footer.legal, contains('© 2025 MUTTA Experiences'));
+    expect(content.footer.legal, contains('MUTTÖ'));
+    expect(content.footer.sponsors, containsAll(['Corona', 'Aperol']));
+    expect(content.footer.producers, contains('Puerto Chapas'));
   });
 }

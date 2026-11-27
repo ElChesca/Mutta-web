@@ -1,17 +1,19 @@
-import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:mutta_web/core/layout/app_breakpoint.dart';
 import 'package:mutta_web/core/theme/mutta_theme.dart';
 import 'package:mutta_web/core/widgets/mutta_button.dart';
 import 'package:mutta_web/data/providers.dart';
 import 'package:mutta_web/features/landing/logic/external_link.dart';
+import 'package:mutta_web/features/landing/presentation/widgets/closing_band.dart';
+import 'package:mutta_web/features/landing/presentation/widgets/facts_section.dart';
+import 'package:mutta_web/features/landing/presentation/widgets/gallery_section.dart';
 import 'package:mutta_web/features/landing/presentation/widgets/hero_section.dart';
 import 'package:mutta_web/features/landing/presentation/widgets/lineup_section.dart';
 import 'package:mutta_web/features/landing/presentation/widgets/location_section.dart';
 import 'package:mutta_web/features/landing/presentation/widgets/site_footer.dart';
 import 'package:mutta_web/features/landing/presentation/widgets/site_header.dart';
-import 'package:mutta_web/features/landing/presentation/widgets/tagline_band.dart';
 
 class LandingPage extends ConsumerStatefulWidget {
   const new({super.key});
@@ -23,11 +25,10 @@ class LandingPage extends ConsumerStatefulWidget {
 class _LandingPageState extends ConsumerState<LandingPage> {
   final _controller = ScrollController();
   final GlobalKey<State<StatefulWidget>> _hero = GlobalKey();
+  final GlobalKey<State<StatefulWidget>> _facts = GlobalKey();
   final GlobalKey<State<StatefulWidget>> _lineup = GlobalKey();
-  final GlobalKey<State<StatefulWidget>> _tagline = GlobalKey();
+  final GlobalKey<State<StatefulWidget>> _gallery = GlobalKey();
   final GlobalKey<State<StatefulWidget>> _location = GlobalKey();
-  final GlobalKey<State<StatefulWidget>> _faq = GlobalKey();
-  var _active = 'hero';
 
   @override
   void dispose() {
@@ -38,10 +39,10 @@ class _LandingPageState extends ConsumerState<LandingPage> {
   GlobalKey? _keyFor(String id) {
     return switch (id) {
       'hero' => _hero,
+      'facts' => _facts,
       'lineup' => _lineup,
-      'tagline' => _tagline,
+      'gallery' => _gallery,
       'location' => _location,
-      'faq' => _faq,
       _ => null,
     };
   }
@@ -68,7 +69,6 @@ class _LandingPageState extends ConsumerState<LandingPage> {
         curve: Curves.easeOutCubic,
       );
     }
-    setState(() => _active = id);
   }
 
   Future<void> _open(String url) async {
@@ -131,40 +131,37 @@ class _LandingPageState extends ConsumerState<LandingPage> {
                                   key: _hero,
                                   child: HeroSection(
                                     hero: event.hero,
-                                    lockup: event.tagline.lead,
+                                    tagline: event.tagline,
                                     onTickets: _tickets,
-                                    onLineup: () => _scrollTo('lineup'),
+                                    onNext: () => _scrollTo('facts'),
                                   ),
+                                ),
+                                KeyedSubtree(
+                                  key: _facts,
+                                  child: FactsSection(facts: event.facts),
                                 ),
                                 KeyedSubtree(
                                   key: _lineup,
-                                  child: LineupSection(
-                                    lineup: event.lineup,
-                                    onOpenProfile: () =>
-                                        _open(event.event.instagramUrl),
-                                  ),
+                                  child: LineupSection(lineup: event.lineup),
                                 ),
                                 KeyedSubtree(
-                                  key: _tagline,
-                                  child: TaglineBand(tagline: event.tagline),
+                                  key: _gallery,
+                                  child: GallerySection(gallery: event.gallery),
                                 ),
                                 KeyedSubtree(
                                   key: _location,
                                   child: LocationSection(
                                     location: event.location,
-                                    faq: event.faq,
-                                    faqKey: _faq,
                                     onOpenMap: () => _open(event.event.mapsUrl),
-                                    onSupport: () =>
-                                        _open(event.event.instagramUrl),
                                   ),
+                                ),
+                                ClosingBand(
+                                  title: event.footer.quote,
+                                  cta: event.hero.primaryCta,
+                                  onTickets: _tickets,
                                 ),
                                 SiteFooter(
                                   footer: event.footer,
-                                  instagramHandle: event.event.instagramHandle,
-                                  navigation: event.navigation,
-                                  lockup: event.tagline.lead,
-                                  onNavigate: _scrollTo,
                                   onInstagram: () =>
                                       _open(event.event.instagramUrl),
                                 ),
@@ -194,9 +191,7 @@ class _LandingPageState extends ConsumerState<LandingPage> {
                           bottom: 0,
                           child: MobileChrome(
                             cta: event.hero.primaryCta,
-                            selected: _active,
                             onBuy: _tickets,
-                            onSelect: _scrollTo,
                           ),
                         ),
                     ],

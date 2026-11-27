@@ -9,7 +9,9 @@ class EventContent {
     required this.event,
     required this.navigation,
     required this.hero,
+    required this.facts,
     required this.lineup,
+    required this.gallery,
     required this.tagline,
     required this.location,
     required this.faq,
@@ -22,7 +24,9 @@ class EventContent {
   final EventInfo event;
   final List<NavItem> navigation;
   final HeroContent hero;
+  final FactsContent facts;
   final LineupContent lineup;
+  final GalleryContent gallery;
   final TaglineContent tagline;
   final LocationContent location;
   final FaqContent faq;
@@ -220,6 +224,61 @@ class SupportArtist {
 }
 
 @JsonSerializable(explicitToJson: true)
+class FactItem {
+  const new({required this.label, required this.value});
+
+  factory fromJson(Map<String, dynamic> json) => _$FactItemFromJson(json);
+
+  final String label;
+  final String value;
+
+  Map<String, dynamic> toJson() => _$FactItemToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class FactsContent {
+  const new({
+    required this.title,
+    required this.image,
+    required this.imageAlt,
+    required this.items,
+  });
+
+  factory fromJson(Map<String, dynamic> json) => _$FactsContentFromJson(json);
+
+  final String title;
+  final String image;
+  final String imageAlt;
+  final List<FactItem> items;
+
+  Map<String, dynamic> toJson() => _$FactsContentToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GalleryImage {
+  const new({required this.image, required this.imageAlt});
+
+  factory fromJson(Map<String, dynamic> json) => _$GalleryImageFromJson(json);
+
+  final String image;
+  final String imageAlt;
+
+  Map<String, dynamic> toJson() => _$GalleryImageToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GalleryContent {
+  const new({required this.title, required this.images});
+
+  factory fromJson(Map<String, dynamic> json) => _$GalleryContentFromJson(json);
+
+  final String title;
+  final List<GalleryImage> images;
+
+  Map<String, dynamic> toJson() => _$GalleryContentToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
 class TaglineContent {
   const new({required this.lead, required this.mark});
 
@@ -337,6 +396,9 @@ class FooterContent {
     required this.newsletterPending,
     required this.legal,
     required this.links,
+    required this.producers,
+    required this.sponsors,
+    required this.ageNote,
   });
 
   factory fromJson(Map<String, dynamic> json) => _$FooterContentFromJson(json);
@@ -353,6 +415,9 @@ class FooterContent {
   final String newsletterPending;
   final String legal;
   final List<FooterLink> links;
+  final String producers;
+  final List<String> sponsors;
+  final String ageNote;
 
   Map<String, dynamic> toJson() => _$FooterContentToJson(this);
 }

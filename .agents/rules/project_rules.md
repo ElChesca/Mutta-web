@@ -22,7 +22,7 @@ description: Reglas fundamentales de arquitectura, Git workflow y Flutter para M
 ## 3. Diseño y Responsive
 - Consultar siempre los tokens en `context.tokens` (`mutta_theme.dart`).
 - Todo cambio visual debe considerar vista desktop y vista mobile (`_WideHero` / `_MobileHero`).
-- Fondo base: `#0B0B0B`. Acento: `#FF8A37`. Textos: Cream `#F6F2E7`.
+- Fondo violeta casi negro: `#141118`. Acento sol: `#F6A34C`. Textos: crema `#F6F2E7`. Secundario: `#B7AFA6`. Agua del isotipo: `#2C2336`.
 
 ## 4. Assets y Multimedia
 - Contenidos del evento en `assets/content/event.json`.

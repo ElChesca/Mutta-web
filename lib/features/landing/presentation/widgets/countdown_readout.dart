@@ -1,6 +1,5 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mutta_web/core/icons/mutta_icons.dart';
 import 'package:mutta_web/core/theme/mutta_theme.dart';
 import 'package:mutta_web/core/widgets/brand_text.dart';
 import 'package:mutta_web/features/landing/logic/countdown.dart';
@@ -46,14 +45,16 @@ class CountdownReadout extends StatelessWidget {
         child: context.viewport.compact
             ? _CompactReadout(label: label, parts: parts, units: units)
             : Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  BrandText(
-                    label,
-                    role: BrandRole.labelSm,
-                    color: context.colors.outline,
-                  ),
-                  SizedBox(height: tokens.spacing.sm),
+                  if (label.isNotEmpty) ...[
+                    BrandText(
+                      label,
+                      role: BrandRole.labelSm,
+                      color: context.colors.onSurfaceVariant,
+                      textAlign: TextAlign.center,
+                    ),
+                    SizedBox(height: tokens.spacing.sm),
+                  ],
                   Row(
                     children: [
                       for (var index = 0; index < parts.length; index++) ...[
@@ -91,24 +92,15 @@ class _CompactReadout extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Row(
-          children: [
-            Icon(
-              muttaIcon('hourglass_top'),
-              color: colors.primary,
-              size: tokens.metrics.iconMd,
-            ),
-            SizedBox(width: tokens.spacing.sm),
-            Expanded(
-              child: BrandText(
-                label,
-                role: BrandRole.labelSm,
-                color: colors.outline,
-              ),
-            ),
-          ],
-        ),
-        SizedBox(height: tokens.spacing.sm),
+        if (label.isNotEmpty) ...[
+          BrandText(
+            label,
+            role: BrandRole.labelSm,
+            color: colors.onSurfaceVariant,
+            textAlign: TextAlign.center,
+          ),
+          SizedBox(height: tokens.spacing.sm),
+        ],
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -152,27 +144,24 @@ class _Cell extends StatelessWidget {
   Widget build(BuildContext context) {
     final tokens = context.tokens;
     final colors = context.colors;
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: colors.surfaceContainerLow,
-        borderRadius: BorderRadius.circular(tokens.radii.nested),
-        border: Border.all(color: colors.outlineVariant.withValues(alpha: 0.2)),
-      ),
-      child: Padding(
-        padding: EdgeInsets.all(tokens.spacing.sm),
-        child: Column(
-          children: [
-            Text(
-              value,
-              style: context.texts.headlineLarge?.copyWith(
-                color: gold ? colors.primary : colors.onSurface,
-                fontWeight: FontWeight.w800,
-              ),
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: tokens.spacing.sm),
+      child: Column(
+        children: [
+          Text(
+            value,
+            style: context.texts.headlineMedium?.copyWith(
+              color: gold ? colors.primary : colors.onSurface,
+              fontWeight: FontWeight.w700,
             ),
-            SizedBox(height: tokens.spacing.xs),
-            BrandText(unit, role: BrandRole.labelSm),
-          ],
-        ),
+          ),
+          SizedBox(height: tokens.spacing.xs),
+          BrandText(
+            unit,
+            role: BrandRole.labelSm,
+            color: colors.onSurfaceVariant,
+          ),
+        ],
       ),
     );
   }

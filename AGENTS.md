@@ -6,7 +6,7 @@ Este documento establece las directivas obligatorias para cualquier agente o des
 
 ## 1. Contexto del Proyecto
 
-* **Objetivo:** Landing page oficial de la experiencia electrónica **MUTTA Sunset** en Boxes Potrero de los Funes, San Luis (Headliner: Mariano Mellino).
+* **Objetivo:** Landing page oficial de **MUTTÖ Sunset** en Boxes Potrero de los Funes, San Luis (Headliner: Mariano Mellino).
 * **Tecnología:** **Flutter Web** (Dart SDK `^3.13.7` / Flutter stable).
 * **Infraestructura:** Despliegue en **Vercel** automatizado mediante `scripts/vercel-build.sh` y `vercel.json`.
 * **Repositorio GitHub:** `https://github.com/ElChesca/Mutta-web`.
@@ -78,10 +78,10 @@ lib/
 ## 5. Sistema de Diseño y Responsive
 
 * **Tokens de diseño:** Todos los márgenes, gaps, colores y bordes deben consumirse desde `context.tokens`, `context.colors` o `context.texts` en `mutta_theme.dart`.
-* **Identidad cromática:**
-  * Fondo base oscuro: `#0B0B0B` (`tokens.surfaceBase`).
-  * Acento atardecer/ámbar: `#FF8A37` (`tokens.colors.primary` / `accentWash`).
-  * Tipografías: Cream `#F6F2E7` sobre superficies oscuras.
+* **Identidad cromática (afiche MUTTÖ):**
+  * Fondo violeta casi negro: `#141118` (`tokens.surfaceBase`). El agua del isotipo es `#2C2336`.
+  * Acento sol: `#F6A34C` (`tokens.colors.primary`).
+  * Texto: crema `#F6F2E7`. Secundario: gris cálido `#B7AFA6`.
 * **Diseño Mobile-First & Desktop:**
   * Siempre verificar tanto la vista desktop (`_WideHero`, layouts en fila) como la vista móvil (`_MobileHero`, navegación colapsada).
   * Respetar los breakpoints definidos en `lib/core/layout/app_breakpoint.dart`.

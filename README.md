@@ -1,6 +1,6 @@
-# MUTTA Sunset
+# MUTTÖ Sunset
 
-Landing web del evento **MUTTA Sunset** (sábado 19 de diciembre, Boxes Potrero de los Funes, San Luis). La interfaz sigue el mockup de Stitch y el design system: fondo `#0B0B0B`, acento `#FF8A37`, texto `#F6F2E7` y gris `#A7A097`, con Montserrat e Inter.
+Landing web de **MUTTÖ Sunset** (sábado 19 de diciembre, Boxes Potrero de los Funes, San Luis). Paleta del afiche: fondo `#141118`, agua `#2C2336`, sol `#F6A34C`, crema `#F6F2E7` y gris cálido `#B7AFA6`, con Montserrat e Inter.
 
 ## Requisitos
 
@@ -71,8 +71,8 @@ Los assets bajo `assets/` no llevan hash en el nombre. Si cambiás una imagen y 
 ## Pendientes
 
 - Golden tests de componentes. Por ahora solo hay tests de comportamiento.
-- Venta de entradas: «Comprar Tickets» y «Conseguir Entradas» muestran un aviso. El código está marcado con `TODO(mutta)`. No hay sección de pases.
-- La sección «¿Qué es la experiencia MUTTA?», las features y la pulsera oficial salieron del layout. En ese lugar queda la franja «¿MÁS DE LO MISMO? MUTTA.».
+- Venta de entradas: «Comprar entradas» muestra un aviso. El código está marcado con `TODO(mutta)`. No hay sección de entradas, experiencias ni pulsera.
+- El isotipo provisorio vive en `assets/brand/isotipo.svg`. El wordmark es texto Montserrat Black.
 - Newsletter: valida el email y deja el estado en pendiente de integración. No envía datos a ningún servicio.
 - La muestra sonora del lineup solo alterna play/pausa. El mockup no incluye un archivo de audio.
 - Términos de admisión y políticas de privacidad no tienen página en el mockup.
@@ -80,12 +80,11 @@ Los assets bajo `assets/` no llevan hash en el nombre. Si cambiás una imagen y 
 
 ## Desvíos respecto del mockup
 
-- El fondo de página es `#0B0B0B`, como pide el texto de `DESIGN.md`, y no el token `#131313` del export.
-- El acento es el naranja oficial `#FF8A37`. El «Amarillo Sol `#FFD93D`» del manual de marca queda descartado.
+- El fondo es el violeta casi negro del afiche (`#141118`), no el negro neutro anterior.
+- El acento es el sol del afiche (`#F6A34C`).
 - El countdown apunta al sábado 19 de diciembre de 2026 a las 17:00 (ART), no al temporizador de demostración del HTML (`hoy + 24 días`).
 - Las tarjetas usan radio 24 y los anidados 16, según la sección de formas del design system.
-- El texto de display, headline y label va en mayúsculas, como pide el design system.
-- «Galería» no existe como sección en el HTML.
-- La compra y la newsletter son placeholders a propósito.
-- A pedido de Fede, no se muestran pases, checkout, la experiencia ni la pulsera. El nav «Experiencia MUTTA» baja a la franja de tagline.
-- El wordmark y el isotipo son SVG trazados desde los PNG oficiales, para que el borde escale sin escalones.
+- Los labels y los botones van en mayúsculas. Los títulos quedan en la caja del texto.
+- La compra sigue siendo un placeholder.
+- A pedido de Fede, no se muestran entradas, experiencias ni pulsera.
+- El isotipo es un SVG provisorio, fácil de reemplazar en `assets/brand/isotipo.svg`.
