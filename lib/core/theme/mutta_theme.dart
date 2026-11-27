@@ -37,6 +37,54 @@ const _accentButton = Color.fromRGBO(246, 163, 76, 0.28);
 const _accentHalo = Color.fromRGBO(246, 163, 76, 0.18);
 const _accentWash = Color.fromRGBO(246, 163, 76, 0.14);
 
+// Cielo del hero, de arriba hacia abajo. El sol entra opaco
+// (#F6A34C al 28% sobre #141118 = #533A27): un alpha en el
+// gradiente interpola el naranja puro y deja una banda.
+// Las paradas samplean una curva suave: noche, agua, sol tenue, noche.
+const _skyHorizon = Color(0xFF533A27);
+
+const _heroSky = <Color>[
+  _base,
+  Color(0xFF18141D),
+  Color(0xFF201A27),
+  Color(0xFF282031),
+  _subtle,
+  Color(0xFF362932),
+  Color(0xFF49342B),
+  _skyHorizon,
+  Color(0xFF4E3626),
+  Color(0xFF402E22),
+  Color(0xFF2F231E),
+  Color(0xFF20181B),
+  Color(0xFF151218),
+  _base,
+];
+
+const _heroSkyStops = <double>[
+  0,
+  0.08,
+  0.16,
+  0.24,
+  0.32,
+  0.40,
+  0.48,
+  0.56,
+  0.64,
+  0.72,
+  0.80,
+  0.88,
+  0.96,
+  1,
+];
+
+List<Color> _lerpColors(List<Color> from, List<Color> to, double t) {
+  return [for (var i = 0; i < from.length; i++) Color.lerp(from[i], to[i], t)!];
+}
+
+List<double> _lerpStops(List<double> from, List<double> to, double t) {
+  return [for (var i = 0; i < from.length; i++) lerpDouble(from[i], to[i], t)!];
+}
+
 class MuttaSpacing {
   const new({
     required this.xs,
@@ -399,6 +447,8 @@ class MuttaTokens extends ThemeExtension<MuttaTokens> {
     required this.headerBorder,
     required this.sandHover,
     required this.accentWash,
+    required this.heroSky,
+    required this.heroSkyStops,
     required this.spacing,
     required this.radii,
     required this.metrics,
@@ -427,6 +477,8 @@ class MuttaTokens extends ThemeExtension<MuttaTokens> {
   final Color headerBorder;
   final Color sandHover;
   final Color accentWash;
+  final List<Color> heroSky;
+  final List<double> heroSkyStops;
   final MuttaSpacing spacing;
   final MuttaRadii radii;
   final MuttaMetrics metrics;
@@ -463,6 +515,8 @@ class MuttaTokens extends ThemeExtension<MuttaTokens> {
     headerBorder: _headerBorder,
     sandHover: _sandHover,
     accentWash: _accentWash,
+    heroSky: _heroSky,
+    heroSkyStops: _heroSkyStops,
     spacing: MuttaSpacing.standard,
     radii: MuttaRadii.standard,
     metrics: MuttaMetrics.standard,
@@ -509,6 +563,8 @@ class MuttaTokens extends ThemeExtension<MuttaTokens> {
     Color? headerBorder,
     Color? sandHover,
     Color? accentWash,
+    List<Color>? heroSky,
+    List<double>? heroSkyStops,
     MuttaSpacing? spacing,
     MuttaRadii? radii,
     MuttaMetrics? metrics,
@@ -537,6 +593,8 @@ class MuttaTokens extends ThemeExtension<MuttaTokens> {
       headerBorder: headerBorder ?? this.headerBorder,
       sandHover: sandHover ?? this.sandHover,
       accentWash: accentWash ?? this.accentWash,
+      heroSky: heroSky ?? this.heroSky,
+      heroSkyStops: heroSkyStops ?? this.heroSkyStops,
       spacing: spacing ?? this.spacing,
       radii: radii ?? this.radii,
       metrics: metrics ?? this.metrics,
@@ -572,6 +630,8 @@ class MuttaTokens extends ThemeExtension<MuttaTokens> {
       headerBorder: Color.lerp(headerBorder, other.headerBorder, t)!,
       sandHover: Color.lerp(sandHover, other.sandHover, t)!,
       accentWash: Color.lerp(accentWash, other.accentWash, t)!,
+      heroSky: _lerpColors(heroSky, other.heroSky, t),
+      heroSkyStops: _lerpStops(heroSkyStops, other.heroSkyStops, t),
       spacing: spacing.lerp(other.spacing, t),
       radii: radii.lerp(other.radii, t),
       metrics: metrics.lerp(other.metrics, t),
