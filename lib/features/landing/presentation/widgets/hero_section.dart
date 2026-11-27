@@ -110,7 +110,8 @@ class HeroSection extends StatelessWidget {
 }
 
 /// El teaser actual todavía dice MUTTA, así que el fondo es el degradado
-/// del afiche hasta que llegue un loop nuevo.
+/// del afiche hasta que llegue un loop nuevo. Las paradas viven en el tema
+/// y son opacas, para que el horizonte no corte en una banda.
 class _HeroBackdrop extends StatelessWidget {
   const new();
 
@@ -122,13 +123,8 @@ class _HeroBackdrop extends StatelessWidget {
         gradient: LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
-          colors: [
-            tokens.surfaceBase,
-            tokens.surfaceSubtle,
-            tokens.accent.withValues(alpha: 0.28),
-            tokens.surfaceBase,
-          ],
-          stops: const [0, 0.42, 0.72, 1],
+          colors: tokens.heroSky,
+          stops: tokens.heroSkyStops,
         ),
       ),
     );
