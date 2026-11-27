@@ -1,394 +1,83 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mutta_web/core/icons/mutta_icons.dart';
-import 'package:mutta_web/core/layout/app_breakpoint.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:mutta_web/core/layout/content_frame.dart';
 import 'package:mutta_web/core/theme/mutta_theme.dart';
 import 'package:mutta_web/core/widgets/brand_text.dart';
-import 'package:mutta_web/core/widgets/mutta_button.dart';
-import 'package:mutta_web/core/widgets/mutta_mark.dart';
 import 'package:mutta_web/data/models/event_content.dart';
-import 'package:mutta_web/features/landing/logic/newsletter.dart';
 
-class SiteFooter extends ConsumerStatefulWidget {
+class SiteFooter extends StatelessWidget {
   const new({
     required this.footer,
-    required this.instagramHandle,
-    required this.navigation,
-    required this.lockup,
-    required this.onNavigate,
     required this.onInstagram,
     super.key,
   });
 
   final FooterContent footer;
-  final String instagramHandle;
-  final List<NavItem> navigation;
-  final String lockup;
-  final ValueChanged<String> onNavigate;
   final VoidCallback onInstagram;
-
-  @override
-  ConsumerState<SiteFooter> createState() => _SiteFooterState();
-}
-
-class _SiteFooterState extends ConsumerState<SiteFooter> {
-  final _email = TextEditingController();
-
-  @override
-  void dispose() {
-    _email.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
     final tokens = context.tokens;
     final colors = context.colors;
-    final footer = widget.footer;
-    final newsletter = ref.watch(newsletterProvider);
-    final message = switch (newsletter.status) {
-      NewsletterStatus.invalid => footer.newsletterInvalid,
-      NewsletterStatus.pendingIntegration => footer.newsletterPending,
-      NewsletterStatus.idle => null,
-    };
-    return ColoredBox(
-      color: tokens.surfaceSection,
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        border: Border(top: BorderSide(color: tokens.headerBorder)),
+      ),
       child: ContentFrame(
         child: Padding(
-          padding: EdgeInsets.only(
-            top: context.viewport.sectionPadding,
-            bottom: context.viewport.compact
-                ? context.viewport.headingGap
-                : tokens.spacing.xl,
+          padding: EdgeInsets.symmetric(
+            vertical: context.viewport.sectionPadding,
           ),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Responsive(
-                builder: (context, breakpoint) {
-                  final brand = _BrandColumn(
-                    footer: footer,
-                    handle: widget.instagramHandle,
-                    lockup: widget.lockup,
-                    onInstagram: widget.onInstagram,
-                  );
-                  final nav = _NavColumn(
-                    title: footer.navTitle,
-                    items: widget.navigation,
-                    onNavigate: widget.onNavigate,
-                  );
-                  final news = _NewsColumn(
-                    footer: footer,
-                    controller: _email,
-                    message: message,
-                    onSubmit: () {
-                      ref.read(newsletterProvider.notifier).submit(_email.text);
-                    },
-                  );
-                  if (breakpoint == AppBreakpoint.mobile) {
-                    final gap = context.viewport.headingGap;
-                    return Column(
-                      children: [
-                        _BrandColumn(
-                          footer: footer,
-                          handle: widget.instagramHandle,
-                          lockup: widget.lockup,
-                          onInstagram: widget.onInstagram,
-                          centered: true,
-                        ),
-                        SizedBox(height: gap),
-                        BrandText(
-                          footer.navTitle,
-                          role: BrandRole.labelLg,
-                          textAlign: TextAlign.center,
-                        ),
-                        Wrap(
-                          alignment: WrapAlignment.center,
-                          spacing: tokens.spacing.md,
-                          children: [
-                            for (final item in widget.navigation)
-                              TextButton(
-                                onPressed: () =>
-                                    widget.onNavigate(item.section),
-                                child: BrandText(
-                                  item.label,
-                                  role: BrandRole.labelMd,
-                                  color: colors.onSurfaceVariant,
-                                ),
-                              ),
-                          ],
-                        ),
-                        SizedBox(height: gap),
-                        news,
-                      ],
-                    );
-                  }
-                  return Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(flex: 5, child: brand),
-                      Expanded(flex: 3, child: nav),
-                      Expanded(flex: 4, child: news),
-                    ],
-                  );
-                },
-              ),
-              SizedBox(
-                height: context.viewport.compact
-                    ? context.viewport.sectionPadding
-                    : tokens.spacing.xxl,
-              ),
-              DecoratedBox(
-                decoration: BoxDecoration(
-                  border: Border(
-                    top: BorderSide(
-                      color: colors.surfaceContainer.withValues(alpha: 0.4),
+              Wrap(
+                spacing: tokens.spacing.lg,
+                runSpacing: tokens.spacing.sm,
+                crossAxisAlignment: WrapCrossAlignment.center,
+                children: [
+                  TextButton(
+                    onPressed: onInstagram,
+                    child: BrandText(
+                      'Instagram',
+                      role: BrandRole.labelMd,
+                      color: colors.onSurface,
                     ),
                   ),
-                ),
-                child: Padding(
-                  padding: EdgeInsets.only(top: tokens.spacing.lg),
-                  child: Responsive(
-                    builder: (context, breakpoint) {
-                      final legal = BrandText(
-                        footer.legal,
-                        role: BrandRole.labelSm,
-                        color: colors.onSurfaceVariant,
-                        textAlign: breakpoint == AppBreakpoint.mobile
-                            ? TextAlign.center
-                            : TextAlign.start,
-                      );
-                      final links = Wrap(
-                        alignment: breakpoint == AppBreakpoint.mobile
-                            ? WrapAlignment.center
-                            : WrapAlignment.start,
-                        spacing: tokens.spacing.lg,
-                        children: [
-                          for (final link in footer.links)
-                            TextButton(
-                              onPressed: () {
-                                final section = link.section;
-                                if (section == null) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text(
-                                        'TODO: esta página todavía '
-                                        'no está publicada.',
-                                      ),
-                                    ),
-                                  );
-                                  return;
-                                }
-                                widget.onNavigate(section);
-                              },
-                              child: BrandText(
-                                link.label,
-                                role: BrandRole.labelSm,
-                                color: colors.onSurfaceVariant,
-                              ),
-                            ),
-                        ],
-                      );
-                      if (breakpoint == AppBreakpoint.mobile) {
-                        return Column(
-                          children: [
-                            legal,
-                            SizedBox(height: tokens.spacing.md),
-                            links,
-                          ],
-                        );
-                      }
-                      return Row(
-                        children: [
-                          Expanded(child: legal),
-                          links,
-                        ],
-                      );
-                    },
+                  BrandText(
+                    footer.producers,
+                    role: BrandRole.bodySm,
+                    color: colors.onSurfaceVariant,
                   ),
-                ),
+                  BrandText(
+                    footer.ageNote,
+                    role: BrandRole.labelSm,
+                    color: colors.onSurfaceVariant,
+                  ),
+                ],
+              ),
+              SizedBox(height: tokens.spacing.lg),
+              Wrap(
+                spacing: tokens.spacing.md,
+                runSpacing: tokens.spacing.sm,
+                children: [
+                  for (final name in footer.sponsors)
+                    BrandText(
+                      name,
+                      role: BrandRole.labelSm,
+                      color: colors.onSurfaceVariant,
+                    ),
+                ],
+              ),
+              SizedBox(height: tokens.spacing.xl),
+              BrandText(
+                footer.legal,
+                role: BrandRole.bodySm,
+                color: colors.onSurfaceVariant,
               ),
             ],
           ),
         ),
       ),
-    );
-  }
-}
-
-class _BrandColumn extends StatelessWidget {
-  const new({
-    required this.footer,
-    required this.handle,
-    required this.lockup,
-    required this.onInstagram,
-    this.centered = false,
-  });
-
-  final FooterContent footer;
-  final String handle;
-  final String lockup;
-  final VoidCallback onInstagram;
-  final bool centered;
-
-  @override
-  Widget build(BuildContext context) {
-    final tokens = context.tokens;
-    final colors = context.colors;
-    final align = centered ? TextAlign.center : TextAlign.start;
-    return Column(
-      crossAxisAlignment: centered
-          ? CrossAxisAlignment.center
-          : CrossAxisAlignment.start,
-      children: [
-        MuttaLockup(
-          height: context.viewport.metrics.wordmarkHeight,
-          tagline: lockup,
-        ),
-        SizedBox(height: tokens.spacing.md),
-        Text(
-          footer.quote,
-          textAlign: align,
-          style: context.texts.bodyLarge?.copyWith(
-            fontStyle: FontStyle.italic,
-            fontWeight: FontWeight.w300,
-          ),
-        ),
-        SizedBox(height: tokens.spacing.md),
-        BrandText(
-          footer.about,
-          role: BrandRole.bodySm,
-          color: colors.onSurfaceVariant,
-          textAlign: align,
-        ),
-        SizedBox(height: tokens.spacing.md),
-        TextButton.icon(
-          onPressed: onInstagram,
-          icon: Icon(muttaIcon('photo_camera'), color: colors.onSurfaceVariant),
-          label: BrandText(
-            handle,
-            role: BrandRole.labelMd,
-            color: colors.onSurfaceVariant,
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class _NavColumn extends StatelessWidget {
-  const new({
-    required this.title,
-    required this.items,
-    required this.onNavigate,
-  });
-
-  final String title;
-  final List<NavItem> items;
-  final ValueChanged<String> onNavigate;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.colors;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        BrandText(title, role: BrandRole.labelLg),
-        for (final item in items)
-          TextButton(
-            onPressed: () => onNavigate(item.section),
-            style: TextButton.styleFrom(
-              padding: EdgeInsets.zero,
-              alignment: Alignment.centerLeft,
-              foregroundColor: colors.onSurfaceVariant,
-            ),
-            child: BrandText(
-              item.label,
-              role: BrandRole.bodyMd,
-              color: colors.onSurfaceVariant,
-            ),
-          ),
-      ],
-    );
-  }
-}
-
-class _NewsColumn extends StatelessWidget {
-  const new({
-    required this.footer,
-    required this.controller,
-    required this.message,
-    required this.onSubmit,
-  });
-
-  final FooterContent footer;
-  final TextEditingController controller;
-  final String? message;
-  final VoidCallback onSubmit;
-
-  @override
-  Widget build(BuildContext context) {
-    final tokens = context.tokens;
-    final colors = context.colors;
-    final note = message;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        BrandText(footer.newsletterTitle, role: BrandRole.labelLg),
-        SizedBox(height: tokens.spacing.md),
-        BrandText(
-          footer.newsletterBody,
-          role: BrandRole.bodySm,
-          color: colors.onSurfaceVariant,
-        ),
-        SizedBox(height: tokens.spacing.md),
-        Responsive(
-          builder: (context, breakpoint) {
-            final field = TextField(
-              controller: controller,
-              keyboardType: TextInputType.emailAddress,
-              textInputAction: TextInputAction.done,
-              autofillHints: const [AutofillHints.email],
-              style: context.texts.bodySmall?.copyWith(color: colors.onSurface),
-              decoration: InputDecoration(
-                hintText: footer.newsletterPlaceholder,
-              ),
-              onSubmitted: (_) => onSubmit(),
-            );
-            final button = MuttaButton(
-              label: footer.newsletterCta,
-              onPressed: onSubmit,
-            );
-            if (breakpoint == AppBreakpoint.mobile) {
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  field,
-                  SizedBox(height: tokens.spacing.sm),
-                  button,
-                ],
-              );
-            }
-            return Row(
-              children: [
-                Expanded(child: field),
-                SizedBox(width: tokens.spacing.sm),
-                button,
-              ],
-            );
-          },
-        ),
-        SizedBox(height: tokens.spacing.sm),
-        BrandText(
-          footer.newsletterNote,
-          role: BrandRole.labelSm,
-          color: colors.outline,
-        ),
-        if (note != null) ...[
-          SizedBox(height: tokens.spacing.sm),
-          BrandText(note, role: BrandRole.bodySm, color: colors.primary),
-        ],
-      ],
     );
   }
 }

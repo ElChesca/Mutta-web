@@ -35,15 +35,15 @@ class BrandText extends StatelessWidget {
   final bool heading;
 
   bool get _upper => switch (role) {
+    BrandRole.labelLg || BrandRole.labelMd || BrandRole.labelSm => true,
     BrandRole.display ||
     BrandRole.edition ||
     BrandRole.headlineLg ||
     BrandRole.headlineMd ||
     BrandRole.headlineSm ||
-    BrandRole.labelLg ||
-    BrandRole.labelMd ||
-    BrandRole.labelSm => true,
-    BrandRole.bodyLg || BrandRole.bodyMd || BrandRole.bodySm => false,
+    BrandRole.bodyLg ||
+    BrandRole.bodyMd ||
+    BrandRole.bodySm => false,
   };
 
   @override

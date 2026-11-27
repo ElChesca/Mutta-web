@@ -1,39 +1,41 @@
 import 'dart:ui' show lerpDouble;
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:mutta_web/core/layout/app_breakpoint.dart';
 
-const _base = Color(0xFF0B0B0B);
-const _accent = Color(0xFFFF8A37);
+// Paleta del afiche: crema, agua violeta casi negra y sol.
+// El agua del isotipo mide #2C2336; el fondo baja un paso más.
+const _base = Color(0xFF141118);
+const _accent = Color(0xFFF6A34C);
 const _cream = Color(0xFFF6F2E7);
-const _earth = Color(0xFFA7A097);
-const _elevated = Color(0xFF141414);
-const _subtle = Color(0xFF1F1E1D);
-const _lowest = Color(0xFF0E0E0E);
-const _panel = Color(0xFF201F1F);
-const _high = Color(0xFF2A2A2A);
-const _highest = Color(0xFF353534);
+const _earth = Color(0xFFB7AFA6);
+const _elevated = Color(0xFF1C1824);
+const _subtle = Color(0xFF2C2336);
+const _lowest = Color(0xFF100E14);
+const _panel = Color(0xFF261F30);
+const _high = Color(0xFF342C3E);
+const _highest = Color(0xFF403848);
 const _error = Color(0xFFFFB4AB);
 const _onError = Color(0xFF690005);
 const _errorContainer = Color(0xFF93000A);
 const _onErrorContainer = Color(0xFFFFDAD6);
-const _outlineVariant = Color(0xFF4E3824);
+const _outlineVariant = Color(0xFF5A4E66);
 const _inverseSurface = Color(0xFFE5E2E1);
 const _onInverseSurface = Color(0xFF313030);
-const _inversePrimary = Color(0xFF8A3C12);
+const _inversePrimary = Color(0xFFA85A22);
 const Color _surfaceTint = _accent;
 
-const _borderDim = Color.fromRGBO(167, 160, 151, 0.18);
-const _borderGhost = Color.fromRGBO(167, 160, 151, 0.20);
-const _borderCard = Color.fromRGBO(167, 160, 151, 0.16);
-const _borderInput = Color.fromRGBO(167, 160, 151, 0.30);
-const _glass = Color.fromRGBO(11, 11, 11, 0.78);
-const _headerBorder = Color.fromRGBO(32, 31, 31, 0.60);
-const _sandHover = Color.fromRGBO(246, 242, 231, 0.08);
-const _accentSoft = Color.fromRGBO(255, 138, 55, 0.16);
-const _accentButton = Color.fromRGBO(255, 138, 55, 0.25);
-const _accentHalo = Color.fromRGBO(255, 138, 55, 0.12);
-const _accentWash = Color.fromRGBO(255, 138, 55, 0.20);
+const _borderDim = Color.fromRGBO(246, 242, 231, 0.16);
+const _borderGhost = Color.fromRGBO(246, 242, 231, 0.14);
+const _borderCard = Color.fromRGBO(246, 242, 231, 0.12);
+const _borderInput = Color.fromRGBO(246, 242, 231, 0.28);
+const _glass = Color.fromRGBO(20, 17, 24, 0.82);
+const _headerBorder = Color.fromRGBO(246, 242, 231, 0.12);
+const _sandHover = Color.fromRGBO(246, 242, 231, 0.06);
+const _accentSoft = Color.fromRGBO(246, 163, 76, 0.16);
+const _accentButton = Color.fromRGBO(246, 163, 76, 0.28);
+const _accentHalo = Color.fromRGBO(246, 163, 76, 0.18);
+const _accentWash = Color.fromRGBO(246, 163, 76, 0.14);
 
 class MuttaSpacing {
   const new({
@@ -195,7 +197,7 @@ class MuttaMetrics {
   final double glassBlur;
 
   static const standard = MuttaMetrics(
-    headerHeight: 80,
+    headerHeight: 72,
     maxWidth: 1320,
     posterAspect: 3 / 4.4,
     mapHeight: 320,
@@ -205,8 +207,8 @@ class MuttaMetrics {
     iconLg: 24,
     avatar: 32,
     logoBox: 32,
-    wordmarkHeight: 28,
-    wordmarkHero: 48,
+    wordmarkHeight: 22,
+    wordmarkHero: 92,
     pulse: 6,
     artistThumb: 64,
     playButton: 40,
@@ -233,7 +235,7 @@ class MuttaMetrics {
     avatar: 32,
     logoBox: 32,
     wordmarkHeight: 18,
-    wordmarkHero: 36,
+    wordmarkHero: 48,
     pulse: 6,
     artistThumb: 44,
     playButton: 32,
@@ -314,12 +316,12 @@ class MuttaViewport {
   static const desktop = MuttaViewport(
     metrics: MuttaMetrics.standard,
     heroHeight: 0,
-    heroEmblem: 224,
+    heroEmblem: 132,
     headlinerAvatar: 64,
     bottomNavHeight: 0,
     stickyCtaHeight: 0,
     bottomInset: 0,
-    sectionPadding: 64,
+    sectionPadding: 88,
     headingGap: 40,
     stackGap: 16,
     countdownFigure: TextStyle(
@@ -338,20 +340,20 @@ class MuttaViewport {
   static const mobile = MuttaViewport(
     metrics: MuttaMetrics.mobile,
     heroHeight: 580,
-    heroEmblem: 80,
+    heroEmblem: 96,
     headlinerAvatar: 48,
-    bottomNavHeight: 64,
-    stickyCtaHeight: 48,
-    bottomInset: 144,
-    sectionPadding: 40,
+    bottomNavHeight: 0,
+    stickyCtaHeight: 56,
+    bottomInset: 80,
+    sectionPadding: 56,
     headingGap: 16,
     stackGap: 12,
     countdownFigure: TextStyle(
       fontFamily: 'Montserrat',
-      fontSize: 16,
+      fontSize: 20,
       fontWeight: FontWeight.w700,
       height: 1,
-      color: _accent,
+      color: _cream,
     ),
     compact: true,
   );
@@ -656,8 +658,8 @@ ThemeData muttaTheme() {
     onPrimaryContainer: _base,
     secondary: _earth,
     onSecondary: _base,
-    secondaryContainer: Color(0xFF48473F),
-    onSecondaryContainer: Color(0xFFB8B5AB),
+    secondaryContainer: Color(0xFF3A3348),
+    onSecondaryContainer: Color(0xFFD4CDC4),
     tertiary: _cream,
     onTertiary: _base,
     tertiaryContainer: _subtle,
@@ -669,7 +671,7 @@ ThemeData muttaTheme() {
     surface: _base,
     onSurface: _cream,
     surfaceDim: _base,
-    surfaceBright: Color(0xFF3A3939),
+    surfaceBright: Color(0xFF3E3648),
     surfaceContainerLowest: _lowest,
     surfaceContainerLow: _elevated,
     surfaceContainer: _panel,
@@ -709,17 +711,17 @@ ThemeData muttaTheme() {
       color: _accent,
     ),
     headlineLarge: _montserrat(
-      size: 32,
-      weight: FontWeight.w700,
-      height: 40 / 32,
-      tracking: 0.05,
+      size: 40,
+      weight: FontWeight.w600,
+      height: 48 / 40,
+      tracking: -0.02,
       color: _cream,
     ),
     headlineMedium: _montserrat(
-      size: 24,
-      weight: FontWeight.w700,
-      height: 32 / 24,
-      tracking: 0.04,
+      size: 28,
+      weight: FontWeight.w600,
+      height: 36 / 28,
+      tracking: -0.01,
       color: _cream,
     ),
     headlineSmall: _montserrat(

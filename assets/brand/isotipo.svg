@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 250">
+  <!-- Isotipo provisorio de MUTTÖ. Reemplazar este único archivo. -->
+  <path d="M100 2 L18 198 L182 198 Z" fill="#F6F2E7" fill-opacity="0.28"/>
+  <circle cx="76" cy="58" r="10" fill="#F6F2E7"/>
+  <circle cx="124" cy="58" r="10" fill="#F6F2E7"/>
+  <defs>
+    <clipPath id="mutto-disc">
+      <circle cx="100" cy="152" r="58"/>
+    </clipPath>
+  </defs>
+  <g clip-path="url(#mutto-disc)">
+    <rect x="40" y="92" width="120" height="120" fill="#1A1520"/>
+    <circle cx="100" cy="146" r="28" fill="#F6A34C"/>
+    <rect x="40" y="158" width="120" height="56" fill="#2C2336"/>
+    <path d="M60 172 H140" stroke="#F6F2E7" stroke-width="2.2" stroke-linecap="round"/>
+    <path d="M74 184 H126" stroke="#F6F2E7" stroke-width="2.2" stroke-linecap="round" opacity="0.7"/>
+  </g>
+  <circle cx="100" cy="152" r="68" fill="none" stroke="#F6F2E7" stroke-width="16"/>
+</svg>

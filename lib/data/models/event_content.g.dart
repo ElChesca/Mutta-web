@@ -13,7 +13,9 @@ EventContent _$EventContentFromJson(Map<String, dynamic> json) => EventContent(
       .map((e) => NavItem.fromJson(e as Map<String, dynamic>))
       .toList(),
   hero: HeroContent.fromJson(json['hero'] as Map<String, dynamic>),
+  facts: FactsContent.fromJson(json['facts'] as Map<String, dynamic>),
   lineup: LineupContent.fromJson(json['lineup'] as Map<String, dynamic>),
+  gallery: GalleryContent.fromJson(json['gallery'] as Map<String, dynamic>),
   tagline: TaglineContent.fromJson(json['tagline'] as Map<String, dynamic>),
   location: LocationContent.fromJson(json['location'] as Map<String, dynamic>),
   faq: FaqContent.fromJson(json['faq'] as Map<String, dynamic>),
@@ -26,7 +28,9 @@ Map<String, dynamic> _$EventContentToJson(EventContent instance) =>
       'event': instance.event.toJson(),
       'navigation': instance.navigation.map((e) => e.toJson()).toList(),
       'hero': instance.hero.toJson(),
+      'facts': instance.facts.toJson(),
       'lineup': instance.lineup.toJson(),
+      'gallery': instance.gallery.toJson(),
       'tagline': instance.tagline.toJson(),
       'location': instance.location.toJson(),
       'faq': instance.faq.toJson(),
@@ -198,6 +202,53 @@ Map<String, dynamic> _$SupportArtistToJson(SupportArtist instance) =>
       'imageAlt': instance.imageAlt,
     };
 
+FactItem _$FactItemFromJson(Map<String, dynamic> json) =>
+    FactItem(label: json['label'] as String, value: json['value'] as String);
+
+Map<String, dynamic> _$FactItemToJson(FactItem instance) => <String, dynamic>{
+  'label': instance.label,
+  'value': instance.value,
+};
+
+FactsContent _$FactsContentFromJson(Map<String, dynamic> json) => FactsContent(
+  title: json['title'] as String,
+  image: json['image'] as String,
+  imageAlt: json['imageAlt'] as String,
+  items: (json['items'] as List<dynamic>)
+      .map((e) => FactItem.fromJson(e as Map<String, dynamic>))
+      .toList(),
+);
+
+Map<String, dynamic> _$FactsContentToJson(FactsContent instance) =>
+    <String, dynamic>{
+      'title': instance.title,
+      'image': instance.image,
+      'imageAlt': instance.imageAlt,
+      'items': instance.items.map((e) => e.toJson()).toList(),
+    };
+
+GalleryImage _$GalleryImageFromJson(Map<String, dynamic> json) => GalleryImage(
+  image: json['image'] as String,
+  imageAlt: json['imageAlt'] as String,
+);
+
+Map<String, dynamic> _$GalleryImageToJson(GalleryImage instance) =>
+    <String, dynamic>{'image': instance.image, 'imageAlt': instance.imageAlt};
+
+GalleryContent _$GalleryContentFromJson(Map<String, dynamic> json) =>
+    GalleryContent(
+      title: json['title'] as String,
+      images: (json['images'] as List<dynamic>)
+          .map((e) => GalleryImage.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+
+Map<String, dynamic> _$GalleryContentToJson(GalleryContent instance) =>
+    <String, dynamic>{
+      'title': instance.title,
+      'images': instance.images.map((e) => e.toJson()).toList(),
+    };
+
 TaglineContent _$TaglineContentFromJson(Map<String, dynamic> json) =>
     TaglineContent(lead: json['lead'] as String, mark: json['mark'] as String);
 
@@ -303,6 +354,11 @@ FooterContent _$FooterContentFromJson(Map<String, dynamic> json) =>
       links: (json['links'] as List<dynamic>)
           .map((e) => FooterLink.fromJson(e as Map<String, dynamic>))
           .toList(),
+      producers: json['producers'] as String,
+      sponsors: (json['sponsors'] as List<dynamic>)
+          .map((e) => e as String)
+          .toList(),
+      ageNote: json['ageNote'] as String,
     );
 
 Map<String, dynamic> _$FooterContentToJson(FooterContent instance) =>
@@ -319,6 +375,9 @@ Map<String, dynamic> _$FooterContentToJson(FooterContent instance) =>
       'newsletterPending': instance.newsletterPending,
       'legal': instance.legal,
       'links': instance.links.map((e) => e.toJson()).toList(),
+      'producers': instance.producers,
+      'sponsors': instance.sponsors,
+      'ageNote': instance.ageNote,
     };
 
 FooterLink _$FooterLinkFromJson(Map<String, dynamic> json) => FooterLink(
